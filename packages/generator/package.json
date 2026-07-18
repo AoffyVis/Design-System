@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "lib/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsx lib/build.ts"
+    "build": "tsx lib/build.ts",
+    "build:pkg": "tsup",
+    "prepublishOnly": "pnpm run build:pkg"
   },
   "dependencies": {
-    "@company/tokens": "workspace:*",
-    "@company/css-core": "workspace:*"
+    "@company/css-core": "workspace:*",
+    "@company/tokens": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^26.1.0",
+    "tsup": "^8.5.1",
     "tsx": "4.19.4",
     "typescript": "5.8.3"
   }

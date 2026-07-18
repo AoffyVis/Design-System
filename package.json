@@ -12,7 +12,7 @@
     "lint": "pnpm run lint:docs",
     "lint:docs": "node scripts/validate-links.mjs",
     "test": "vitest run",
-    "build": "pnpm -r --filter @company/tokens build && pnpm -r --filter @company/css-core build && pnpm -r --filter @company/generator build",
+    "build": "pnpm -r --filter @company/tokens build && pnpm -r --filter @company/css-core build && pnpm -r --filter @company/generator build && pnpm --filter @company/generator run build:pkg && pnpm --filter @company/cli run build:pkg",
     "generate": "tsx packages/cli/bin/ds-generate.ts",
     "publish": "echo \"no packages to publish yet\" && exit 0"
   },

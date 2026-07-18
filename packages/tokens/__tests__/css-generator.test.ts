@@ -1,7 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
 import { toCustomPropertyName, generateCSS } from '../lib/generators/css.js';
-import type { TokenGraph, ResolvedToken } from '../lib/types.js';
+import type { TokenGraph, ResolvedToken, TokenType } from '../lib/types.js';
+
+/** Builds a resolved token for tests where the reference/path fields are irrelevant. */
+function mkToken(identifier: string, value: string | number, type: TokenType): ResolvedToken {
+  return { identifier, value, type, originalValue: value, path: identifier.split('.') };
+}
 
 describe('toCustomPropertyName', () => {
   it('prefixes with --ds- and replaces dots with hyphens', () => {
@@ -61,9 +66,9 @@ describe('toCustomPropertyName', () => {
 describe('generateCSS', () => {
   it('produces correct number of custom properties', () => {
     const graph: TokenGraph = new Map<string, ResolvedToken>([
-      ['color.primary.main', { value: '#1565C0', type: 'color', identifier: 'color.primary.main' }],
-      ['spacing.4', { value: '1rem', type: 'dimension', identifier: 'spacing.4' }],
-      ['radius.md', { value: '0.25rem', type: 'dimension', identifier: 'radius.md' }],
+      ['color.primary.main', mkToken('color.primary.main', '#1565C0', 'color')],
+      ['spacing.4', mkToken('spacing.4', '1rem', 'dimension')],
+      ['radius.md', mkToken('radius.md', '0.25rem', 'dimension')],
     ]);
 
     const css = generateCSS(graph);
@@ -73,7 +78,7 @@ describe('generateCSS', () => {
 
   it('wraps output in :root { ... }', () => {
     const graph: TokenGraph = new Map<string, ResolvedToken>([
-      ['color.primary.main', { value: '#1565C0', type: 'color', identifier: 'color.primary.main' }],
+      ['color.primary.main', mkToken('color.primary.main', '#1565C0', 'color')],
     ]);
 
     const css = generateCSS(graph);
@@ -83,9 +88,9 @@ describe('generateCSS', () => {
 
   it('sorts properties alphabetically', () => {
     const graph: TokenGraph = new Map<string, ResolvedToken>([
-      ['spacing.4', { value: '1rem', type: 'dimension', identifier: 'spacing.4' }],
-      ['color.primary.main', { value: '#1565C0', type: 'color', identifier: 'color.primary.main' }],
-      ['radius.md', { value: '0.25rem', type: 'dimension', identifier: 'radius.md' }],
+      ['spacing.4', mkToken('spacing.4', '1rem', 'dimension')],
+      ['color.primary.main', mkToken('color.primary.main', '#1565C0', 'color')],
+      ['radius.md', mkToken('radius.md', '0.25rem', 'dimension')],
     ]);
 
     const css = generateCSS(graph);
@@ -104,7 +109,7 @@ describe('generateCSS', () => {
           const graph: TokenGraph = new Map();
           for (let i = 0; i < n; i++) {
             const id = `test.token${i}`;
-            graph.set(id, { value: `${i}px`, type: 'dimension', identifier: id });
+            graph.set(id, mkToken(id, `${i}px`, 'dimension'));
           }
           const css = generateCSS(graph);
           const declarations = css.match(/--ds-[^:]+:/g) || [];

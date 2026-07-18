@@ -4821,3 +4821,345 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 56 — 18 July 2025 (push master + create features/dev branch)
+
+### What Was Accomplished
+
+- Staged and committed all pending changes to `master` (gitignore update, CI workflow branch rename, session logs)
+- Pushed `master` to GitHub successfully (`caae6ba..d61ae02`)
+- Created new branch `features/dev` from master
+- Pushed `features/dev` to remote with upstream tracking
+- All future work will be on `features/dev`, merge back to `master` when ready
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Commit + push master | ~1 min |
+| Create + push features/dev | ~1 min |
+| **Subtotal** | **~2 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- (git operations only — no file content changes beyond what was already modified in previous sessions)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,702K |
+| Total output tokens | ~995K |
+| Total estimated cost | ~$23.44 |
+| Total time (Kiro) | ~7.5 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session — 2026-07-18 (Claude, review of Kiro's Sessions 48–56 — CI/CD pipeline, found and fixed a currently-broken lint gate plus a packaging bug; two unresolved architectural gaps flagged)
+
+### What Was Accomplished
+
+- Reviewed Session 48 (Milestone 6: `.github/workflows/ci.yml`) and
+  Sessions 49–56 (git/GitHub housekeeping: repo access, push conflicts,
+  branch rename `main`→`master`, `.gitignore` audit, `features/dev`
+  branch creation — all informational or git-only, no code bugs to find
+  there).
+- **Critical, immediately-reproducible finding**: actually ran the CI
+  workflow's own commands locally rather than trusting Session 48's "lint
+  passes" claim (which only ever ran `pnpm run lint:docs`, not the new
+  `tsc --noEmit` step the same session added to the workflow). Running
+  the exact CI "Lint" job command, `pnpm -r exec tsc --noEmit`, **fails
+  right now** on the current repo state, for two independent reasons —
+  meaning the CI pipeline would show a red X on every push/PR as currently
+  configured:
+  1. Session 47's `packages/tokens/__tests__/css-generator.test.ts` builds
+     mock `ResolvedToken` objects with only `{ value, type, identifier }`,
+     but the real `ResolvedToken` type
+     (`packages/tokens/lib/types.ts`) also requires `originalValue` and
+     `path`. `vitest` doesn't type-check (just transpiles), so `pnpm test`
+     passed 75/75 without ever catching this — only a real `tsc --noEmit`
+     surfaces it. Fixed: added a `mkToken()` test helper that fills in
+     both fields correctly, used across all 4 call sites in that file.
+  2. `packages/generator` and `packages/cli` (Session 40) were scaffolded
+     **without `@types/node`**, unlike `packages/tokens`/`packages/css-core`
+     which have it — so `tsc --noEmit` in either package can't resolve
+     `node:fs`/`node:path`/`node:url` or the global `process`. Never
+     caught before because `tsx` (used for both the build scripts and the
+     CLI's own execution) doesn't type-check either — this only became
+     visible once Session 48 added a real type-check to CI. Fixed: added
+     `"@types/node": "^26.1.0"` to both packages' devDependencies
+     (matching tokens/css-core's version), ran `pnpm install`, re-verified
+     `pnpm -r exec tsc --noEmit` is now clean (exit 0) across all 4
+     packages.
+- **Confirmed packaging bug (would ship broken packages on the first
+  version tag)**: ran `pnpm pack` on all 4 packages and inspected the
+  actual tarball contents (not just trusting the workflow's `publish`
+  step). Every package's published tarball would contain raw `.ts`
+  source and `__tests__/*.test.ts` files, but **not `dist/`** — because
+  `dist/` is gitignored (Session 40's `.gitignore`) and no package has a
+  `files` field or `prepublishOnly` build step to override that default
+  exclusion. Concretely: `@company/tokens` would publish without
+  `dist/tokens.css`/`.json`/`.d.ts` — the entire reason anyone would
+  install it — and same for `@company/css-core`'s `dist/core.css`. The
+  workflow's `|| true` after every `pnpm ... publish` call means this
+  would happen silently with a green checkmark, not a visible failure.
+  **Fixed for `packages/tokens` and `packages/css-core`**: added
+  `"files": ["dist", "lib", "src"]` / `"files": ["dist", "lib"]` and a
+  `"prepublishOnly": "pnpm run build"` script to each; re-verified via
+  `pnpm pack` that the tarballs now correctly include `dist/*` and
+  exclude test files.
+- **Two architectural gaps confirmed but deliberately not silently
+  fixed** — each is a real design decision, not a small patch, so flagged
+  for the user rather than picked unilaterally:
+  1. `packages/generator` and `packages/cli` have no per-package `dist/`
+     of their own (the generator writes to the repo-root `dist/`
+     instead) and ship no compiled JS at all — `packages/cli`'s
+     published `bin` entry (`bin/ds-generate.ts`) is a bare `.ts` file,
+     which won't execute under plain `node` the way a published CLI's
+     bin script normally must. Publishing either package in its current
+     form ships something not independently usable outside this
+     monorepo's `tsx`-based tooling.
+  2. `apps/roadmap-site`'s `deploy-docs` job uploads
+     `apps/roadmap-site/.next/` directly to GitHub Pages. Confirmed via
+     a real `pnpm --dir apps/roadmap-site run build`: `/demo/design-system.css`
+     is explicitly reported as "ƒ (Dynamic) server-rendered on demand" —
+     a genuine server-side route, not a static asset — and
+     `next.config.ts` has no `output: 'export'`. GitHub Pages only serves
+     static files with no Node.js runtime behind it, so this route (and
+     the entire live-CSS-rendering feature of `/demo`, the centerpiece of
+     this POC) cannot function if actually deployed there. This is not a
+     quick fix — it needs a real decision (redesign the route to be
+     static, which defeats its purpose; or deploy to a host that runs a
+     Next.js server instead of GitHub Pages).
+- Verified after all fixes: `pnpm -r exec tsc --noEmit` (exit 0),
+  `pnpm run lint:docs`, `pnpm build`, `pnpm test` (75/75), and
+  `pnpm --dir apps/roadmap-site run build` all clean. Bundle-size check
+  (the CI job's own gzip-under-100KB assertion) re-run manually:
+  `core.css` gzips to ~14.5KB, well within budget — no bug there.
+
+### Files Modified
+
+- `packages/tokens/__tests__/css-generator.test.ts` (fixed `ResolvedToken`
+  mocks to include `originalValue`/`path`, via a new `mkToken()` helper)
+- `packages/generator/package.json` (added `@types/node` devDependency)
+- `packages/cli/package.json` (added `@types/node` devDependency)
+- `packages/tokens/package.json` (added `files` + `prepublishOnly`)
+- `packages/css-core/package.json` (added `files` + `prepublishOnly`)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Session — 2026-07-18 (Claude, resolved the two flagged CI/CD architectural gaps per user decision)
+
+### What Was Accomplished
+
+- Presented the two unresolved gaps from the prior review to the user and
+  got explicit direction: (1) add a real build step for
+  `packages/generator`/`packages/cli` rather than excluding them from
+  publish, (2) disable `deploy-docs` rather than solving the GitHub
+  Pages/dynamic-route mismatch right now.
+- **`deploy-docs` disabled**: added `if: false && ...` to the job in
+  `.github/workflows/ci.yml` plus a comment explaining why (confirmed via
+  a real build that `/demo/design-system.css` is "ƒ Dynamic", GitHub
+  Pages has no Node runtime, `next.config.ts` has no `output: 'export'`)
+  and what re-enabling it would require.
+- **Real build step added for `packages/generator` + `packages/cli`**,
+  using `tsup` (added as a devDependency to both):
+  - `packages/generator/tsup.config.ts`: bundles `lib/index.ts` to
+    `dist/index.js` + `dist/index.d.ts`. First attempt only bundled
+    generator's own code and left `@company/tokens`/`@company/css-core`
+    as unresolved external `import`s (esbuild's default: package.json
+    `dependencies` are assumed externally resolvable) — caught by
+    actually running the compiled output under plain `node`, not just
+    trusting a successful build, which immediately threw
+    `ERR_MODULE_NOT_FOUND` on `packages/tokens/lib/parser.js`. Fixed with
+    `noExternal: ['@company/tokens', '@company/css-core']`, forcing both
+    (which have no compiled JS of their own) to be inlined instead.
+    Bundle grew 6KB → 43KB, confirming the inlining.
+  - `packages/cli/tsup.config.ts`: bundles `bin/ds-generate.ts` to
+    `dist/ds-generate.js`, with a `banner: { js: '#!/usr/bin/env node' }`
+    supplying the shebang a published bin needs. Removed the source
+    file's own `#!/usr/bin/env tsx` shebang line (used only for direct
+    `tsx` execution during dev) — leaving both would have produced two
+    shebang lines in the compiled output, and the second one isn't valid
+    JS syntax, crashing at load.
+  - Updated both packages' `package.json`: `main`/`types` (generator) and
+    `bin` (cli) now point at the compiled `dist/` output; added
+    `files: ["dist"]`; added `build:pkg` (runs tsup) and
+    `prepublishOnly: "pnpm run build:pkg"`.
+  - Wired `build:pkg` for both into the root `build` script, since
+    `packages/cli/bin/ds-generate.ts`'s `import { generate } from
+    '@company/generator'` resolves via `@company/generator`'s `main`
+    field — now `dist/index.js` — so that file must exist before any
+    dev-mode `tsx`-based invocation (`pnpm generate`) works too, not just
+    before publishing.
+- **Verified for real, not just "build succeeded"**: ran
+  `node packages/cli/dist/ds-generate.js --tokens ... --output ...
+  --verbose` directly (plain Node, no `tsx`) — exit 0, all 7 files
+  generated correctly; same for `--help`. Separately imported
+  `packages/generator/dist/index.js` from a standalone Node script and
+  called `generate()` directly — worked. Re-ran `pnpm pack` on both
+  packages: tarballs now contain only compiled `dist/*`, no raw `.ts`
+  source, no test files.
+- Re-ran the full suite after all changes: `pnpm build` (now includes
+  both `build:pkg` steps), `pnpm test` (75/75), `pnpm run lint`,
+  `pnpm -r exec tsc --noEmit` (exit 0 — the exact CI lint command),
+  `pnpm --dir apps/roadmap-site run build`, and confirmed the *existing*
+  dev workflow (`pnpm generate` via `tsx`) still works unchanged despite
+  now depending on the compiled generator output.
+
+### Files Modified
+
+- `.github/workflows/ci.yml` (disabled `deploy-docs` with `if: false` +
+  explanatory comment)
+- `packages/generator/tsup.config.ts` (new)
+- `packages/generator/package.json` (`main`/`types` → `dist/`, added
+  `files`, `build:pkg`, `prepublishOnly`)
+- `packages/cli/tsup.config.ts` (new)
+- `packages/cli/package.json` (`bin` → `dist/ds-generate.js`, added
+  `files`, `build:pkg`, `prepublishOnly`)
+- `packages/cli/bin/ds-generate.ts` (removed the source-only `tsx`
+  shebang, now supplied by tsup's banner in the compiled output)
+- `package.json` (root `build` script now also runs both packages'
+  `build:pkg`)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Session 57 — 18 July 2025 (post-Claude review — CI/CD + publish fixes verified)
+
+### What Was Accomplished
+
+- Read Claude's review of Kiro Sessions 44–56 (unified dist/ wiring, optional tests, CI/CD, GitHub push)
+- Key findings from Claude's review:
+  1. **`tsc --noEmit` was broken** (CI would have failed): `css-generator.test.ts` mock missing required fields + `packages/generator`/`cli` missing `@types/node` — both fixed by Claude
+  2. **Packages were not publishable**: `pnpm pack` tarballs empty (gitignored dist, no `files` field) — Claude added `files` + `prepublishOnly` + `tsup` bundler for generator/cli with `noExternal` to inline workspace deps
+  3. **`deploy-docs` disabled**: `/demo/design-system.css` is dynamic (needs Node.js) but GitHub Pages is static-only — set to `if: false` until re-hosted or route redesigned
+  4. **tasks.md subtasks checked off** (2.3, 6.2, 6.3, 6.4) — verified test coverage matches task descriptions
+- Verified current state: `pnpm build` ✅, `pnpm test` 75/75 ✅, `pnpm run lint` ✅, `pnpm -r exec tsc --noEmit` ✅
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~25K |
+| Output tokens | ~5K |
+| Estimated cost | ~$0.15 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Reading handoff file (QA Status table) | ~2 min |
+| Running build/test/lint/tsc verification | ~2 min |
+| Summarizing findings for user | ~1 min |
+| **Subtotal** | **~5 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,727K |
+| Total output tokens | ~998K |
+| Total estimated cost | ~$23.59 |
+| Total time (Kiro) | ~7.6 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 58 — 18 July 2025 (session end)
+
+### What Was Accomplished
+
+- This session covered multiple activities across Sessions 33–57:
+  - Fixed "Still open" items: easing naming quirk (`.ease-ease-*` → `.ease-*`), shadow dark tokens, tasks.md wording
+  - Improved `/docs` page Z-Index and Motion sections with live interactive demos + click-to-copy
+  - Implemented Milestone 5 (Generator + CLI) — unified pipeline orchestrator with transform registry
+  - Wrote optional tests (39 → 75 tests): parser, css-generator, build-pipeline, CLI parse-args
+  - Implemented Milestone 6 (CI/CD) — GitHub Actions workflow (lint → test → build → publish → deploy)
+  - Switched roadmap-site to unified `dist/` output
+  - Updated `.gitignore`, pushed to GitHub, created `features/dev` branch
+  - Reviewed Claude's QA passes and verified all fixes
+- Final state: `pnpm build` ✅, `pnpm test` 75/75 ✅, `pnpm run lint` ✅, `tsc --noEmit` ✅
+- Milestones 1–7 all Done. Remaining: 8 (VS Code Extension), 9 (v1.0 Release)
+
+### Token & Credit Estimate (this full session window)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~2,727K (cumulative) |
+| Output tokens | ~998K (cumulative) |
+| Estimated cost | ~$23.59 (cumulative) |
+
+### Time Spent (this session window)
+
+| Activity | Approx |
+|----------|--------|
+| All activities in Sessions 33–57 | ~2.5 hours |
+| **Subtotal** | **~2.5 hours** |
+
+### Files Created (this session window)
+
+- `packages/generator/` (entire package: package.json, tsconfig, lib/*.ts, transforms/*.ts)
+- `packages/cli/` (entire package: package.json, tsconfig, bin/ds-generate.ts, lib/parse-args.ts)
+- `packages/tokens/lib/index.ts`, `packages/css-core/lib/index.ts`
+- `packages/tokens/__tests__/parser.test.ts`, `css-generator.test.ts`, `build-pipeline.test.ts`
+- `packages/cli/__tests__/parse-args.test.ts`
+- `.github/workflows/ci.yml`, `.gitlab-ci.yml`
+- `.kiro/specs/generator-package/` (requirements.md, design.md, tasks.md)
+- `.gitignore`
+
+### Files Modified (this session window)
+
+- `packages/tokens/src/motion.json` (easing key rename)
+- `packages/tokens/src/themes/dark.json` (shadow overrides added)
+- `packages/tokens/package.json`, `packages/css-core/package.json` (main field)
+- `package.json` (build script updated)
+- `apps/roadmap-site/src/app/demo/design-system.css/route.ts` (unified dist/)
+- `apps/roadmap-site/src/app/docs/page.tsx` (Z-Index/Motion sections rewritten)
+- `.kiro/specs/tokens-package/tasks.md` (wording update)
+- `docs/11-roadmap.md` (Milestones 5+6 → Done)
+- `AGENTS.md` (Session Tracking section updated)
+- `Design-System-Requirements.md` (Thai documentation added)
+- `docs/TEST-REPORT.md` (rewritten with 75 tests)
+- `docs/SESSION-SUMMARY.md`
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,730K |
+| Total output tokens | ~1,000K |
+| Total estimated cost | ~$23.62 |
+| Total time (Kiro) | ~7.6 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
