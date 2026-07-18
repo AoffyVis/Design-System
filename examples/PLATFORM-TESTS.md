@@ -5,9 +5,9 @@
 CDN URLs (ใช้ branch `features/dev`):
 
 ```
-https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css
-https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css
-https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark.css
+https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css
+https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css
+https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/themes/dark.css
 ```
 
 ---
@@ -23,9 +23,9 @@ https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS Test — Plain HTML</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/themes/dark.css">
 </head>
 <body class="p-8">
   <h1 class="text-heading-h1">Plain HTML Test</h1>
@@ -76,9 +76,9 @@ npm install
 แก้ `index.html` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/themes/dark.css">
 ```
 
 แก้ `src/App.tsx`:
@@ -132,9 +132,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="th">
       <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/themes/dark.css" />
       </head>
       <body>{children}</body>
     </html>
@@ -176,8 +176,8 @@ npm install
 แก้ `index.html` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 แก้ `src/App.vue`:
@@ -226,8 +226,8 @@ cd my-angular-app
 แก้ `src/index.html` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 แก้ `src/app/app.component.html`:
@@ -267,8 +267,8 @@ npm install
 แก้ `index.html` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 แก้ `src/App.svelte`:
@@ -321,8 +321,8 @@ cd MyBlazorApp
 แก้ `wwwroot/index.html` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 แก้ `Pages/Index.razor`:
@@ -372,8 +372,8 @@ cd MyRazorApp
 แก้ `Pages/Shared/_Layout.cshtml` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 แก้ `Pages/Index.cshtml`:
@@ -416,8 +416,8 @@ cd my-laravel-app
 แก้ `resources/views/layouts/app.blade.php` — เพิ่มใน `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/core.css">
 ```
 
 สร้าง `resources/views/test.blade.php`:
