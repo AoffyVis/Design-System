@@ -1,0 +1,17 @@
+[data-theme="banking"] {
+  --ds-color-border-main: rgba(0, 77, 64, 0.12);
+  --ds-color-error-contrast: #FFFFFF;
+  --ds-color-error-main: #B71C1C;
+  --ds-color-info-contrast: #FFFFFF;
+  --ds-color-info-main: #01579B;
+  --ds-color-primary-contrast: #E0F2F1;
+  --ds-color-primary-main: #004D40;
+  --ds-color-secondary-contrast: #FFFFFF;
+  --ds-color-secondary-main: #00695C;
+  --ds-color-success-contrast: #FFFFFF;
+  --ds-color-success-main: #1B5E20;
+  --ds-color-surface-contrast: #1B2E2A;
+  --ds-color-surface-main: #F1F8F6;
+  --ds-color-warning-contrast: #FFFFFF;
+  --ds-color-warning-main: #E65100;
+}

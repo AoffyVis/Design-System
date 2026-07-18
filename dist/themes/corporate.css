@@ -1,0 +1,17 @@
+[data-theme="corporate"] {
+  --ds-color-border-main: #CFD8DC;
+  --ds-color-error-contrast: #FFFFFF;
+  --ds-color-error-main: #C62828;
+  --ds-color-info-contrast: #FFFFFF;
+  --ds-color-info-main: #0277BD;
+  --ds-color-primary-contrast: #E8EAF6;
+  --ds-color-primary-main: #1A237E;
+  --ds-color-secondary-contrast: #FFFFFF;
+  --ds-color-secondary-main: #37474F;
+  --ds-color-success-contrast: #FFFFFF;
+  --ds-color-success-main: #2E7D32;
+  --ds-color-surface-contrast: #212121;
+  --ds-color-surface-main: #FAFAFA;
+  --ds-color-warning-contrast: #1A1A1A;
+  --ds-color-warning-main: #F57F17;
+}
