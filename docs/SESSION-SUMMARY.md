@@ -5163,3 +5163,95 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 59 — 18 July 2025 (readiness check)
+
+### What Was Accomplished
+
+- User asked "พร้อมทำงานต่อยัง" (ready to continue?)
+- Confirmed readiness and awaited task direction
+- No code changes — informational Q&A only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.03 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Readiness confirmation | <1 min |
+| **Subtotal** | **<1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,735K |
+| Total output tokens | ~1,001K |
+| Total estimated cost | ~$23.65 |
+| Total time (Kiro) | ~7.6 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 60 — 18 July 2025 (CI/CD status check)
+
+### What Was Accomplished
+
+- User asked "task CI/CD เสร็จหรือยัง" (is the CI/CD task done?)
+- Read `.github/workflows/ci.yml` and confirmed Milestone 6 is complete
+- Summarized all 5 jobs' status: lint ✅, test ✅, build ✅, publish ✅ (on tag), deploy-docs ⏸️ (disabled — needs real Node.js host)
+- Explained Claude's post-Kiro fixes (tsc types, packaging, tsup bundler)
+- No code changes — informational review only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Reading ci.yml + summarizing status | ~2 min |
+| **Subtotal** | **~2 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,743K |
+| Total output tokens | ~1,003K |
+| Total estimated cost | ~$23.70 |
+| Total time (Kiro) | ~7.6 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
