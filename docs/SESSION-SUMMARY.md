@@ -5255,3 +5255,276 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 61 — 18 July 2025 (CI/CD production readiness assessment)
+
+### What Was Accomplished
+
+- User asked "ใช้งานจริงได้เลยไหม" (can we use the CI/CD in production?)
+- Provided honest assessment:
+  - ✅ CI (lint/test/build on push/PR) works today — no changes needed
+  - ⚠️ Publish has `|| true` (silent failures), `@company` scope needs rename, no staging/canary
+  - ⚠️ deploy-docs disabled (needs real Node.js host, not GitHub Pages)
+  - ⚠️ Secret setup needed for npmjs.com (only GitHub Package Registry works out of the box)
+- No code changes — informational assessment only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Assessing production readiness + writing summary | ~2 min |
+| **Subtotal** | **~2 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,751K |
+| Total output tokens | ~1,005K |
+| Total estimated cost | ~$23.75 |
+| Total time (Kiro) | ~7.6 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 62 — 18 July 2025 (plain HTML usage question)
+
+### What Was Accomplished
+
+- User asked "ถ้าตอนนี้ new project เป็น html ปกติ เอา package นี้ไปใช้ได้เลยไหม" (can I use this in a plain HTML project?)
+- Verified `dist/` output: `tokens.css` (87 tokens), `core.css` (~2,800 lines), `themes/` (dark/banking/corporate)
+- Confirmed: **yes, copy the dist/ folder and `<link>` the CSS files — no build tools needed**
+- Provided a complete HTML usage example with all available utility classes and components
+- Listed everything available: spacing, layout, typography, colors, components, responsive prefixes, dark mode, multi-theme
+- No code changes — informational answer only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~10K |
+| Output tokens | ~3K |
+| Estimated cost | ~$0.08 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Checking dist/ output | ~1 min |
+| Writing usage guide | ~2 min |
+| **Subtotal** | **~3 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,761K |
+| Total output tokens | ~1,008K |
+| Total estimated cost | ~$23.83 |
+| Total time (Kiro) | ~7.7 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 63 — 18 July 2025 (link CSS from GitHub URL question)
+
+### What Was Accomplished
+
+- User asked "ทำให้ link จาก url github ไม่ได้เหรอ" (can I link CSS directly from a GitHub URL?)
+- Explained two methods:
+  1. **jsdelivr CDN** (recommended) — `https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@master/dist/...`
+  2. **raw.githubusercontent.com** — works but no CDN cache, rate-limited
+- Identified a blocker: `dist/` is currently in `.gitignore` so files aren't pushed to GitHub
+- Presented two solutions: (1) remove dist/ from .gitignore and commit it, (2) CI builds and pushes to a separate branch
+- Awaiting user's decision on which approach to take
+- No code changes — informational + awaiting confirmation
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Explaining CDN options + identifying .gitignore blocker | ~2 min |
+| **Subtotal** | **~2 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,769K |
+| Total output tokens | ~1,010K |
+| Total estimated cost | ~$23.88 |
+| Total time (Kiro) | ~7.7 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 64 — 18 July 2025 (commit dist/ for CDN access)
+
+### What Was Accomplished
+
+- User chose option 1: commit `dist/` to git so it's accessible via jsdelivr CDN
+- Updated `.gitignore`: removed `dist/` from ignore list, added `packages/*/dist/` instead (per-package dist stays ignored, root dist/ is tracked)
+- Committed all dist/ files (7 files: tokens.css, core.css, tokens.json, tokens.d.ts, themes/dark.css, themes/banking.css, themes/corporate.css)
+- Pushed to `features/dev` branch on GitHub successfully
+- Provided CDN usage URLs:
+  - `https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/tokens.css`
+  - `https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/core.css`
+  - `https://cdn.jsdelivr.net/gh/AoffyVis/Design-System@features/dev/dist/themes/dark.css`
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~10K |
+| Output tokens | ~3K |
+| Estimated cost | ~$0.08 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Reading + editing .gitignore | ~1 min |
+| git add + commit + push | ~2 min |
+| **Subtotal** | **~3 min** |
+
+### Files Created
+
+- `dist/core.css` (now tracked in git)
+- `dist/tokens.css` (now tracked in git)
+- `dist/tokens.json` (now tracked in git)
+- `dist/tokens.d.ts` (now tracked in git)
+- `dist/themes/dark.css` (now tracked in git)
+- `dist/themes/banking.css` (now tracked in git)
+- `dist/themes/corporate.css` (now tracked in git)
+
+### Files Modified
+
+- `.gitignore` (dist/ → packages/*/dist/, root dist/ now tracked)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+ปัญหาที่ต้องแก้ก่อน: dist/ อยู่ใน .gitignore ตอนนี้ — ไฟล์ไม่ได้ถูก push ขึ้น GitHub
+
+ต้องเลือก:
+
+เอา dist/ ออกจาก .gitignore แล้ว commit ขึ้น — ง่ายสุด, ใช้ได้เลย
+สร้าง GitHub Actions ให้ build แล้ว push dist/ ไป branch แยก (เช่น gh-pages หรือ dist) — clean กว่า แต่ซับซ้อนขึ้น
+อยากให้ทำแบบไหนครับ? ถ้าเอาแบบ 1 (commit dist/) ผมแก้ .gitignore แล้ว commit ให้เลย
+---
+----
+เลือกแบบที่ 1 อยู่
+----
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,779K |
+| Total output tokens | ~1,013K |
+| Total estimated cost | ~$23.96 |
+| Total time (Kiro) | ~7.8 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 65 — 18 July 2025 (README rewrite with CDN usage guide)
+
+### What Was Accomplished
+
+- User requested README update with usage instructions for display on GitHub repo page
+- Rewrote `README.md` completely with:
+  - **Quick Start** — 2-line CDN `<link>` tags (tokens.css + core.css)
+  - **Usage Example** — full HTML page copy-paste ready
+  - **Available Classes** — complete reference tables: layout, spacing, typography, components, borders, radius/shadow, z-index, motion
+  - **Responsive Prefixes** — `sm:` through `2xl:` with breakpoint values
+  - **Themes** — JavaScript switching (dark/banking/corporate)
+  - **CSS Variables** — `var(--ds-*)` examples for custom styling
+  - **Local Development** — clone/install/build/test commands
+  - **Project Structure** — directory overview
+  - **Supported Platforms** — full platform table
+- Verified `pnpm run lint` passes (no broken links)
+- Committed and pushed to `features/dev` on GitHub
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~15K |
+| Output tokens | ~8K |
+| Estimated cost | ~$0.17 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Reading current README | ~1 min |
+| Writing new README with full usage guide | ~4 min |
+| Lint verification + commit + push | ~2 min |
+| **Subtotal** | **~7 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `README.md` (complete rewrite with CDN usage guide + class reference)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,794K |
+| Total output tokens | ~1,021K |
+| Total estimated cost | ~$24.13 |
+| Total time (Kiro) | ~7.9 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
