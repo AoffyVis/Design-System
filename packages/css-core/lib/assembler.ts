@@ -23,12 +23,16 @@ import { generatePrint } from './generators/print.js';
 /**
  * Assemble all generator outputs into the final layered CSS string.
  *
- * Layer order: reset, base, utilities, components, theme
+ * Layer order: reset, base, components, utilities, theme
+ * `utilities` must come after `components` — CSS cascade layers resolve
+ * ties by declaration order regardless of specificity, so utility classes
+ * (e.g. `md:hidden`, `p-8`) need the later layer to actually override a
+ * component's own styles (e.g. `.btn`'s `display`, `.card`'s padding).
  * Accessibility and print output live OUTSIDE layers (global scope).
  */
 export function assembleCSS(tokens: TokenMap): string {
   // 1. Layer order declaration
-  const layerDeclaration = '@layer reset, base, utilities, components, theme;';
+  const layerDeclaration = '@layer reset, base, components, utilities, theme;';
 
   // 2. Reset layer
   const resetCSS = wrapLayer('reset', generateReset());
@@ -36,7 +40,17 @@ export function assembleCSS(tokens: TokenMap): string {
   // 3. Base layer
   const baseCSS = wrapLayer('base', generateBase(tokens));
 
-  // 4. Utilities layer — combine all utility generators
+  // 4. Components layer — before utilities, so utilities can override them
+  const componentsContent = [
+    generateComponents(tokens),
+    generateTable(tokens),
+    generateModal(tokens),
+    generateNav(tokens),
+    generateTabs(tokens),
+  ].join('\n');
+  const componentsCSS = wrapLayer('components', componentsContent);
+
+  // 5. Utilities layer — combine all utility generators
   const baseUtilities = [
     generateSpacing(tokens),
     generateColors(tokens),
@@ -49,24 +63,14 @@ export function assembleCSS(tokens: TokenMap): string {
     generateLayout(tokens),
   ].join('\n');
 
-  // 5. Generate responsive variants from base utilities
+  // 6. Generate responsive variants from base utilities
   const responsiveUtilities = generateResponsive(tokens, baseUtilities);
 
-  // 6. Wrap combined utilities in layer
+  // 7. Wrap combined utilities in layer
   const utilitiesContent = responsiveUtilities
     ? `${baseUtilities}\n${responsiveUtilities}`
     : baseUtilities;
   const utilitiesCSS = wrapLayer('utilities', utilitiesContent);
-
-  // 7. Components layer — between utilities and theme
-  const componentsContent = [
-    generateComponents(tokens),
-    generateTable(tokens),
-    generateModal(tokens),
-    generateNav(tokens),
-    generateTabs(tokens),
-  ].join('\n');
-  const componentsCSS = wrapLayer('components', componentsContent);
 
   // 8. Theme layer (dark mode)
   const themeCSS = wrapLayer('theme', generateDarkMode(tokens));
@@ -82,8 +86,8 @@ export function assembleCSS(tokens: TokenMap): string {
     layerDeclaration,
     resetCSS,
     baseCSS,
-    utilitiesCSS,
     componentsCSS,
+    utilitiesCSS,
     themeCSS,
     accessibilityCSS,
     printCSS,

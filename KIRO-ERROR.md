@@ -29,8 +29,9 @@ are marked separately.
 | Reverted/self-corrected before shipping | 1 | Rule 2 fallback reintroduced then caught same review pass |
 | Missed by Kiro, only caught by the user actually using the site | 1 | `/demo` mobile hamburger menu unclickable (z-index tie) |
 | Inconsistent behavior across platform examples in the same doc | 1 | ASP.NET MVC pagination used a fabricated `.disabled` class instead of a real `disabled` attribute, unlike the React/JS versions in the same file |
+| Foundational architecture bug, present since initial commit, sitewide blast radius | 1 | `@layer` order put `utilities` before `components` — every utility-vs-component CSS conflict silently lost, everywhere, since day one |
 
-**Total distinct defects: ~28**, across roughly 94 Kiro session log entries.
+**Total distinct defects: ~29**, across roughly 94 Kiro session log entries.
 
 ---
 
@@ -170,6 +171,12 @@ are marked separately.
 - **How it surfaced:** a class-by-class cross-check of every `class=`/`className=` token in the document against `dist/core.css`, done independently rather than trusting Kiro's own claimed verification (which included a real `dotnet build` of the C# code — confirmed genuine by reproducing it independently — but evidently didn't cross-check every class token against the CSS artifact for this specific spot).
 - **Fixed by:** Claude, changed the boundary case to a real `<button class="page-btn" type="button" disabled aria-disabled="true">`, matching the other two platform implementations exactly; rebuilt the throwaway MVC project with the fix — still 0 Warnings/0 Errors.
 
+### 29. `@layer` order (`packages/css-core/lib/assembler.ts`) — utilities couldn't override components, sitewide, since the initial commit
+- **What happened:** the layer declaration was `@layer reset, base, utilities, components, theme;` — `utilities` declared *before* `components`. Per the CSS cascade-layers spec, when two rules tie on specificity, the layer declared **later** always wins, regardless of media query truth or source order within the file. `.btn { display: inline-flex; ... }` lives in `components` (later); any responsive/override utility class sharing a property with a component class — `.md\:hidden { display: none }`, or in principle any `.p-*`/`.bg-*`/etc. against `.card`/`.input`/`.nav`/etc. — silently lost, every time, at every viewport.
+- **Impact:** this is the highest-severity item in this log by blast radius. It isn't one broken selector; it's a structural inversion of the entire utility-first premise the framework is built on (utilities exist specifically *to* override component defaults). It shipped in the very first commit (`caae6ba`) and survived every subsequent session and every prior Claude review pass — nothing in the existing test suite or any prior manual check happened to combine a component class with a same-property utility class on the same element in a way that would have surfaced it.
+- **How it surfaced:** the user restructured an external test project (`DS-SYS-TEST_UI/html/index.html`) into a realistic dashboard layout and, during live verification at desktop width, the `<button class="btn ... md:hidden">` hamburger menu never disappeared. Traced via `getComputedStyle` (`display: flex` when it should have been `none`) directly to the layer declaration order — not something any of the static checks (build/test/lint/`tsc --noEmit`) in this project would ever catch, since none of them evaluate cascade-layer precedence.
+- **Fixed by:** Claude, swapped the order to `reset, base, components, utilities, theme` in `assembler.ts` (declaration string + section-assembly order/comments), updated the one test asserting the old order and two doc mentions. Verified three ways: rebuilt `dist/core.css` (byte order now correct), full test suite 75/75 still green, and a live browser check confirming `#nav-toggle`'s computed `display` flips to `none` at 1280px post-fix. Not yet merged to `master`/CDN at time of writing — fixed locally on `features/dev` only.
+
 ---
 
 ## Recurring failure patterns (useful for the POC retrospective)
@@ -180,6 +187,7 @@ are marked separately.
 4. **Silent degradation with zero errors.** Malformed tokens, the `2xl:` breakpoint, the motion easing fallback, the clipboard failure, and the MVC pagination `.disabled` class (#28) all have one thing in common: nothing crashed, nothing logged, nothing failed a test — the output was just quietly wrong. These are the hardest class of bug to catch without deliberately checking computed output against expectations, not just "did it build."
 5. **Self-correction happened, but not habit formation.** Item #9 (Rule 2 fallback) shows the same page reintroducing a violation one session after being corrected for the identical violation — a fix was applied to the symptom, not internalized as a rule going forward.
 6. **Cross-consistency within a single deliverable isn't self-checked.** Item #28 shows Kiro building the *same* feature 3 different ways in one document (HTML/React/MVC) and getting 2 of the 3 right — the verification effort (real `dotnet build`, `node --check`, `tsc --strict`) was genuine but checked "does each platform's code run in isolation," not "do all platforms express the same UI state the same way." The bug only surfaced by diffing platforms against each other, not by checking any one of them alone.
+7. **A foundational architectural choice was never stress-tested against its own stated purpose.** Item #29 — the `@layer` order — shipped in the initial commit and was never wrong in the sense of "doesn't build" or "doesn't match a spec doc"; it just quietly defeated the one thing utility classes are for (overriding components) on every page, for as long as the project existed. Every other item in this log involves a session doing something and getting it wrong; this one involves a decision nobody ever revisited once made, because none of the build/test/lint/type-check gates in this repo are capable of evaluating cascade-layer precedence — only a live browser combining a component class with a same-property utility class on one element would ever reveal it, and that specific combination apparently never got checked until this session.
 
 ---
 

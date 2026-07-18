@@ -23,7 +23,7 @@ Expected implementation: reads `src/*.json` token definitions, validates them ag
 
 ### css-core
 
-Generates the shared CSS framework (reset, base, utilities, components, theme layers) from compiled token outputs.
+Generates the shared CSS framework (reset, base, components, utilities, theme layers) from compiled token outputs.
 
 ```bash
 # From packages/css-core/
@@ -99,7 +99,7 @@ Each package writes its build output to a `dist/` directory within the package r
 | Package     | Output Directory            | Contents                                                      |
 | ----------- | --------------------------- | ------------------------------------------------------------- |
 | `tokens`    | `packages/tokens/dist/`     | CSS Custom Properties, JSON tokens, TypeScript types, theme files |
-| `css-core`  | `packages/css-core/dist/`   | Compiled CSS files (reset, base, utilities, components, theme) |
+| `css-core`  | `packages/css-core/dist/`   | Compiled CSS files (reset, base, components, utilities, theme) |
 | `generator` | `packages/generator/dist/`  | Compiled JavaScript library and programmatic API              |
 | `cli`       | `packages/cli/dist/`        | Compiled CLI executable entry point                           |
 

@@ -21,7 +21,7 @@ describe('css-core integration', () => {
   });
 
   it('starts with @layer declaration', () => {
-    expect(css).toMatch(/^@layer reset, base, utilities, components, theme;/);
+    expect(css).toMatch(/^@layer reset, base, components, utilities, theme;/);
   });
 
   it('contains expected utility selectors', () => {
