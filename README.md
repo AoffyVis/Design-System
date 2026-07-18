@@ -46,15 +46,15 @@ Optional themes:
 </head>
 <body>
 
-  <div class="p-6 max-w-screen-md mx-auto">
+  <div class="p-6 max-w-screen mx-auto">
     <!-- Buttons -->
     <button class="btn btn-primary">Primary</button>
     <button class="btn btn-secondary">Secondary</button>
 
     <!-- Card -->
     <div class="card p-6 mt-4">
-      <h2 class="text-heading-2">Card Title</h2>
-      <p class="text-body mt-2">Card content with design system typography.</p>
+      <h2 class="text-heading-h2">Card Title</h2>
+      <p class="text-body-md mt-2">Card content with design system typography.</p>
     </div>
 
     <!-- Input -->
@@ -100,7 +100,7 @@ Optional themes:
 | `.flex-row` / `.flex-col` | Flex direction |
 | `.items-center` / `.items-start` / `.items-end` | Align items |
 | `.justify-center` / `.justify-between` / `.justify-end` | Justify content |
-| `.w-full` / `.w-fit` / `.max-w-screen-*` | Width utilities |
+| `.w-full` / `.w-fit` / `.max-w-screen` / `.max-w-full` / `.max-w-none` | Width utilities |
 | `.mx-auto` / `.my-auto` | Auto margins |
 
 ### Spacing
@@ -118,11 +118,10 @@ Optional themes:
 
 | Class | Description |
 |-------|-------------|
-| `.text-heading-1` | H1 (2.5rem, bold) |
-| `.text-heading-2` | H2 (2rem, bold) |
-| `.text-heading-3` | H3 (1.5rem, semibold) |
-| `.text-heading-4` | H4 (1.25rem, semibold) |
-| `.text-body` | Body text (1rem) |
+| `.text-heading-h1` | H1 (2.125rem, bold) |
+| `.text-heading-h2` | H2 (1.5rem, bold) |
+| `.text-body-md` | Body text, medium (1rem) |
+| `.text-body-sm` | Body text, small (0.875rem) |
 
 ### Components
 
@@ -225,7 +224,7 @@ var(--ds-spacing-4)                /* 1rem */
 var(--ds-spacing-8)                /* 2rem */
 
 /* Typography */
-var(--ds-typography-heading-1-fontSize)  /* 2.5rem */
+var(--ds-typography-heading-h1-font-size)  /* 2.125rem */
 
 /* Radius */
 var(--ds-radius-md)                /* 0.25rem */

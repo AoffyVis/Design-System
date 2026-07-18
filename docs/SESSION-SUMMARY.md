@@ -5528,3 +5528,130 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 66 — 18 July 2025 (fix tsc --noEmit CI failure)
+
+### What Was Accomplished
+
+- User reported CI error on PR: `tsc --noEmit` failing with TS2307 "Cannot find module '@company/generator'" in `packages/cli`
+- Root cause: `@company/generator`'s `types` field pointed to `dist/index.d.ts` which doesn't exist in CI (packages/*/dist/ is gitignored, lint step runs before build)
+- Fixed by:
+  1. `packages/generator/package.json` — changed `types` from `dist/index.d.ts` → `lib/index.ts` (source, always available)
+  2. `packages/cli/tsconfig.json` — added `paths` mapping (`@company/generator` → `../generator/lib/index.ts`) and removed `rootDir` constraint
+- Verified locally: `pnpm -r exec tsc --noEmit` ✅, `pnpm build` ✅, `pnpm test` 75/75 ✅, `pnpm run lint` ✅
+- Committed and pushed to `features/dev`
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~20K |
+| Output tokens | ~5K |
+| Estimated cost | ~$0.14 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Diagnosing the error (reading tsconfigs + package.json) | ~2 min |
+| Implementing fix (paths + types field) | ~3 min |
+| Verification (tsc + build + test + lint) | ~2 min |
+| Commit + push | ~1 min |
+| **Subtotal** | **~8 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `packages/cli/tsconfig.json` (added paths mapping, removed rootDir)
+- `packages/generator/package.json` (types: dist/index.d.ts → lib/index.ts)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,814K |
+| Total output tokens | ~1,026K |
+| Total estimated cost | ~$24.27 |
+| Total time (Kiro) | ~7.9 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session — 2026-07-18 (Claude, review of Kiro's Sessions 57–66 — verified a real CI fix, found a regression inside it, and fixed 4 README factual errors)
+
+### What Was Accomplished
+
+- Reviewed Sessions 57–61 (Q&A/status checks, no code — spot-checked
+  Session 61's production-readiness claims against the actual workflow,
+  all accurate), 62–63 (Q&A on plain-HTML/CDN usage, no code), 64
+  (committed root `dist/` to git for jsdelivr CDN access — `.gitignore`
+  correctly still excludes `packages/*/dist/`), 65 (README rewrite), and
+  **66 (a genuine CI failure Kiro found and fixed from a real GitHub PR
+  check, not a self-review)**.
+- **Verified Session 66's core fix is correct and necessary**: the
+  reported error (`tsc --noEmit` failing with TS2307 on `@company/cli`)
+  is real — reproduced locally by deleting `packages/generator/dist/`
+  and `packages/cli/dist/` and re-running `pnpm -r exec tsc --noEmit`
+  before Kiro's fix would have applied; the CI lint job runs this exact
+  check with no prior `pnpm build`, exactly the scenario that broke.
+  Kiro's `packages/cli/tsconfig.json` `paths` mapping
+  (`@company/generator` → `../generator/lib/index.ts`) correctly solves
+  this: confirmed by testing the paths mapping in isolation, `tsc
+  --noEmit` passes with zero pre-built `dist/` anywhere.
+- **Found a regression inside that same fix**: Session 66 also changed
+  `packages/generator/package.json`'s public `types` field from
+  `dist/index.d.ts` to `lib/index.ts` (raw source) — unnecessary (the
+  tsconfig paths change alone was already sufficient, verified by
+  testing it in isolation) and actively broken for real external
+  consumers: `packages/generator/package.json`'s `files` field only
+  ships `["dist"]`, so `lib/index.ts` doesn't exist in a real installed
+  package at all — confirmed via `pnpm pack` — meaning any external
+  TypeScript consumer would have their type resolution point at a
+  nonexistent file, exactly the "packaging ships something broken"
+  category of bug from the previous review round. Reverted the `types`
+  field back to `dist/index.d.ts`; reverified both properties hold
+  simultaneously: `tsc --noEmit` still passes with no pre-built `dist/`
+  (the CI scenario), and `pnpm pack` now shows `main`/`types` both
+  pointing at files that are actually present in the tarball.
+- **Found and fixed 4 real factual errors in Session 65's README
+  rewrite**, all verified against the actual generated `dist/core.css`/
+  `dist/tokens.css` (Rule 5) rather than trusted as written — including
+  in the README's own copy-paste "Usage Example," which a real user
+  would run verbatim and get silently broken/unstyled output from:
+  1. `.text-heading-1`/`-2`/`-3`/`-4` don't exist (only `h1`/`h2` are
+     defined in `typography.json`, and the real classes are
+     `.text-heading-h1`/`.text-heading-h2` — the generator doesn't strip
+     the `h` prefix). Fixed the Typography table and the Usage Example's
+     `<h2 class="text-heading-2">`.
+  2. `.text-body` doesn't exist — only `.text-body-md`/`.text-body-sm`
+     are generated. Fixed the table and the Usage Example's
+     `<p class="text-body mt-2">`.
+  3. `.max-w-screen-md` (and the table's `.max-w-screen-*` wildcard
+     implying multiple sizes) doesn't exist — there's exactly one class,
+     `.max-w-screen`, plus `.max-w-full`/`.max-w-none`. Fixed the Usage
+     Example and the Layout table.
+  4. `var(--ds-typography-heading-1-fontSize)` was wrong on two counts:
+     missing the `h` (`heading-1` vs real `heading-h1`) and wrong casing
+     (`fontSize` vs the real kebab-case `font-size`, confirmed against
+     `toCustomPropertyName`'s camelCase→kebab-case transform). Fixed to
+     `var(--ds-typography-heading-h1-font-size)` with the correct real
+     value (`2.125rem`, confirmed in `dist/tokens.css`).
+- Verified after all fixes: `pnpm build`, `pnpm test` (75/75),
+  `pnpm run lint`, and `pnpm -r exec tsc --noEmit` (with `dist/` first
+  deleted to simulate the real CI lint-job scenario) all clean.
+
+### Files Modified
+
+- `packages/generator/package.json` (`types` reverted `lib/index.ts` →
+  `dist/index.d.ts`)
+- `README.md` (4 factual fixes: heading/body class names, `max-w-screen`,
+  the typography CSS variable name+value)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
