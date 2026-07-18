@@ -5862,3 +5862,145 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 71 — 18 July 2025 (CDN 404 diagnosis)
+
+### What Was Accomplished
+
+- User reported 404 error when loading CSS from jsdelivr CDN
+- Investigated: tried jsdelivr, raw.githubusercontent.com, and GitHub API — all return 404
+- Root cause: **GitHub repo is private** — neither jsdelivr nor raw.githubusercontent serve files from private repos without authentication
+- Presented two solutions:
+  - A: Change repo visibility to public (jsdelivr works immediately)
+  - B: Copy dist/ files locally and use relative paths
+- Awaiting user's decision
+- No code changes
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~10K |
+| Output tokens | ~3K |
+| Estimated cost | ~$0.08 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Testing CDN URLs + diagnosing 404 | ~3 min |
+| Presenting solutions | ~1 min |
+| **Subtotal** | **~4 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,877K |
+| Total output tokens | ~1,046K |
+| Total estimated cost | ~$24.76 |
+| Total time (Kiro) | ~8.2 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 72 — 18 July 2025 (VB.NET usage question)
+
+### What Was Accomplished
+
+- User asked "VB.NET ใช้เหมือน html ใช่ไหม"
+- Confirmed: yes, same principle — any platform that renders HTML can use the Design System
+- Provided examples for both VB.NET Web Forms (`.aspx` + Master Page) and VB.NET MVC (`.vbhtml` Razor)
+- Key point: just add `<link>` to CSS files in layout/master page, then use classes in markup
+- No code changes — informational only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.04 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Answering VB.NET question with examples | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,882K |
+| Total output tokens | ~1,048K |
+| Total estimated cost | ~$24.80 |
+| Total time (Kiro) | ~8.2 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 73 — 18 July 2025 (acknowledgment)
+
+### What Was Accomplished
+
+- User acknowledged ("ผ่านๆ") — no further action requested
+- No code changes
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~3K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.02 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Acknowledgment | <1 min |
+| **Subtotal** | **<1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,885K |
+| Total output tokens | ~1,049K |
+| Total estimated cost | ~$24.82 |
+| Total time (Kiro) | ~8.2 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
