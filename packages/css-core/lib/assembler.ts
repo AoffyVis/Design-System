@@ -12,6 +12,10 @@ import { generateMotion } from './generators/motion.js';
 import { generateLayout } from './generators/layout.js';
 import { generateResponsive } from './generators/responsive.js';
 import { generateComponents } from './generators/components.js';
+import { generateTable } from './generators/table.js';
+import { generateModal } from './generators/modal.js';
+import { generateNav } from './generators/nav.js';
+import { generateTabs } from './generators/tabs.js';
 import { generateDarkMode } from './generators/dark-mode.js';
 import { generateAccessibility } from './generators/accessibility.js';
 import { generatePrint } from './generators/print.js';
@@ -55,7 +59,14 @@ export function assembleCSS(tokens: TokenMap): string {
   const utilitiesCSS = wrapLayer('utilities', utilitiesContent);
 
   // 7. Components layer — between utilities and theme
-  const componentsCSS = wrapLayer('components', generateComponents(tokens));
+  const componentsContent = [
+    generateComponents(tokens),
+    generateTable(tokens),
+    generateModal(tokens),
+    generateNav(tokens),
+    generateTabs(tokens),
+  ].join('\n');
+  const componentsCSS = wrapLayer('components', componentsContent);
 
   // 8. Theme layer (dark mode)
   const themeCSS = wrapLayer('theme', generateDarkMode(tokens));
