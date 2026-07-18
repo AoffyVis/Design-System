@@ -1,0 +1,24 @@
+{
+  "name": "@company/design-system-platform",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "packageManager": "pnpm@8.15.6",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "lint": "pnpm run lint:docs",
+    "lint:docs": "node scripts/validate-links.mjs",
+    "test": "vitest run",
+    "build": "pnpm -r --filter @company/tokens build && pnpm -r --filter @company/css-core build && pnpm -r --filter @company/generator build",
+    "generate": "tsx packages/cli/bin/ds-generate.ts",
+    "publish": "echo \"no packages to publish yet\" && exit 0"
+  },
+  "devDependencies": {
+    "fast-check": "3.19.0",
+    "tsx": "4.19.4",
+    "vitest": "1.6.0"
+  }
+}

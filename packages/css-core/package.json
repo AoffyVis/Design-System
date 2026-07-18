@@ -1,0 +1,21 @@
+{
+  "name": "@company/css-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.ts",
+  "scripts": {
+    "build": "tsx lib/build.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@company/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "fast-check": "3.19.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "1.6.0"
+  }
+}

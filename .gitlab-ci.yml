@@ -1,0 +1,184 @@
+# Company Design System Platform — GitLab CI/CD Pipeline
+# Per docs/10-ci-cd.md: lint → test → build → publish → deploy-docs
+#
+# Required CI/CD Variables (set in GitLab > Settings > CI/CD > Variables):
+#   NPM_TOKEN          - GitLab Package Registry token for npm publish
+#   NUGET_API_KEY      - GitLab Package Registry token for NuGet publish
+#   CDN_DEPLOY_KEY     - Deploy key for CDN asset upload (Azure/CloudFront)
+#
+# Publish + Deploy stages only run on tagged releases on the default branch.
+
+image: node:20-alpine
+
+stages:
+  - lint
+  - test
+  - build
+  - publish
+  - deploy-docs
+
+# ─── Cache ────────────────────────────────────────────────────────────
+.pnpm-cache: &pnpm-cache
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store/
+    policy: pull-push
+
+# ─── Setup ────────────────────────────────────────────────────────────
+.setup: &setup
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@8.15.6 --activate
+    - pnpm config set store-dir .pnpm-store
+    - pnpm install --frozen-lockfile
+
+# ═══════════════════════════════════════════════════════════════════════
+# LINT STAGE
+# ═══════════════════════════════════════════════════════════════════════
+
+lint:docs:
+  stage: lint
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm run lint:docs
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+lint:types:
+  stage: lint
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm -r exec tsc --noEmit
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+# ═══════════════════════════════════════════════════════════════════════
+# TEST STAGE
+# ═══════════════════════════════════════════════════════════════════════
+
+test:unit:
+  stage: test
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm build
+    - pnpm test
+  artifacts:
+    when: always
+    reports:
+      junit: test-results.xml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+# ═══════════════════════════════════════════════════════════════════════
+# BUILD STAGE
+# ═══════════════════════════════════════════════════════════════════════
+
+build:packages:
+  stage: build
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm build
+    # Bundle size check
+    - |
+      CORE_SIZE=$(wc -c < dist/core.css)
+      GZIP_SIZE=$(gzip -c dist/core.css | wc -c)
+      echo "core.css: ${CORE_SIZE} bytes raw, ${GZIP_SIZE} bytes gzipped"
+      if [ "$GZIP_SIZE" -gt 102400 ]; then
+        echo "ERROR: core.css exceeds 100KB gzip budget (${GZIP_SIZE} bytes)"
+        exit 1
+      fi
+  artifacts:
+    paths:
+      - dist/
+      - packages/tokens/dist/
+      - packages/css-core/dist/
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+build:roadmap-site:
+  stage: build
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm build
+    - pnpm --dir apps/roadmap-site run build
+  artifacts:
+    paths:
+      - apps/roadmap-site/.next/
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+# ═══════════════════════════════════════════════════════════════════════
+# PUBLISH STAGE (tagged releases on default branch only)
+# ═══════════════════════════════════════════════════════════════════════
+
+publish:npm:
+  stage: publish
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - |
+      echo "@company:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/"
+      echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${NPM_TOKEN}"
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+    # Publish each package in dependency order
+    - pnpm --filter @company/tokens publish --no-git-checks --access restricted || true
+    - pnpm --filter @company/css-core publish --no-git-checks --access restricted || true
+    - pnpm --filter @company/generator publish --no-git-checks --access restricted || true
+    - pnpm --filter @company/cli publish --no-git-checks --access restricted || true
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      when: manual
+  needs:
+    - build:packages
+
+publish:cdn:
+  stage: publish
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - echo "Uploading dist/ to CDN..."
+    # Placeholder — replace with actual CDN upload command
+    # e.g. aws s3 sync dist/ s3://company-design-system/latest/ --delete
+    - ls -la dist/
+    - echo "CDN publish complete (placeholder)"
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      when: manual
+  needs:
+    - build:packages
+
+# ═══════════════════════════════════════════════════════════════════════
+# DEPLOY-DOCS STAGE (tagged releases on default branch only)
+# ═══════════════════════════════════════════════════════════════════════
+
+pages:
+  stage: deploy-docs
+  <<: *pnpm-cache
+  <<: *setup
+  script:
+    - pnpm build
+    - pnpm --dir apps/roadmap-site run build
+    # GitLab Pages expects output in public/
+    - cp -r apps/roadmap-site/out public/
+  artifacts:
+    paths:
+      - public/
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+  needs:
+    - publish:npm

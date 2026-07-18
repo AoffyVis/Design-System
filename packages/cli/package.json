@@ -1,0 +1,21 @@
+{
+  "name": "@company/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "ds-generate": "bin/ds-generate.ts"
+  },
+  "scripts": {
+    "generate": "tsx bin/ds-generate.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@company/generator": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "vitest": "1.6.0"
+  }
+}

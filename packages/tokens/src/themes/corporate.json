@@ -1,0 +1,37 @@
+{
+  "$theme": "corporate",
+  "$description": "Corporate brand theme — professional navy/slate palette. Conservative, trustworthy feel for enterprise-facing applications.",
+  "color": {
+    "primary": {
+      "main": { "value": "#1A237E", "type": "color" },
+      "contrast": { "value": "#E8EAF6", "type": "color" }
+    },
+    "secondary": {
+      "main": { "value": "#37474F", "type": "color" },
+      "contrast": { "value": "#FFFFFF", "type": "color" }
+    },
+    "error": {
+      "main": { "value": "#C62828", "type": "color" },
+      "contrast": { "value": "#FFFFFF", "type": "color" }
+    },
+    "warning": {
+      "main": { "value": "#F57F17", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "success": {
+      "main": { "value": "#2E7D32", "type": "color" },
+      "contrast": { "value": "#FFFFFF", "type": "color" }
+    },
+    "info": {
+      "main": { "value": "#0277BD", "type": "color" },
+      "contrast": { "value": "#FFFFFF", "type": "color" }
+    },
+    "surface": {
+      "main": { "value": "#FAFAFA", "type": "color" },
+      "contrast": { "value": "#212121", "type": "color" }
+    },
+    "border": {
+      "main": { "value": "#CFD8DC", "type": "color" }
+    }
+  }
+}

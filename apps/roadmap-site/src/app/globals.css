@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 defaults the `dark:` variant to a `prefers-color-scheme`
+ * media query and does *not* respond to a `.dark` class unless told to —
+ * that's a Tailwind v3 default (`darkMode: "class"` in tailwind.config.js),
+ * and v4 has no config file to set it in. Without this, every `dark:`
+ * utility across the site only ever reflects the OS-level setting, and
+ * `demo/page.tsx`'s toggle button (which does
+ * `document.documentElement.classList.toggle("dark", ...)`) silently does
+ * nothing. This makes `dark:` respond to a `.dark` class on `<html>` (or
+ * an ancestor), site-wide.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * This file used to also carry the default create-next-app boilerplate:
+ * a `:root { --background/--foreground }` pair driven by
+ * `@media (prefers-color-scheme: dark)`, plus a plain `body { background:
+ * var(--background); ... }` rule. That block predates `<body>` in
+ * layout.tsx getting real Tailwind classes for this
+ * (`bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50`) and was
+ * never removed — and because it was a plain, unlayered rule, it silently
+ * *always* won over Tailwind's `dark:` utilities (unlayered author rules
+ * beat layered ones unconditionally, regardless of specificity), so the
+ * dark-mode toggle appeared to do nothing to the page background no
+ * matter what the `.dark` class said. It also hardcoded
+ * `font-family: Arial, Helvetica, sans-serif`, silently overriding the
+ * Geist font loaded via `next/font` the same way. Removed — `<body>`'s
+ * own Tailwind classes and Tailwind's base font styling (via `--font-sans`
+ * below) are the only sources of truth now.
+ */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}

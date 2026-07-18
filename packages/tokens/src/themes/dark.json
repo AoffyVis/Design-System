@@ -1,0 +1,46 @@
+{
+  "$theme": "dark",
+  "$description": "Color-only overrides applied under [data-theme=\"dark\"], per docs/06-theme.md's Light/Dark Structure. Lives in themes/ (not src/ directly) so the main build's directory-wide JSON merge in parser.ts doesn't fold these into the base color tree. Only color tokens are overridden — typography, spacing, radius, breakpoint, zIndex, and motion are shared, matching docs/06-theme.md's stated scope. Values follow Material Design's documented dark-theme conventions (the existing light palette is already Material-derived): --ds-color-primary-main and --ds-color-surface-main/--ds-color-surface-contrast reuse the exact values from docs/06-theme.md's own worked example; the remaining semantic colors (secondary, error, warning, success, info) use the equivalent Material 200-tone tint for the same reason primary does — legible on a dark surface without the contrast tokens needing per-color hand-tuning. All *-contrast tokens are set to a single near-black (#1A1A1A, matching the existing color.surface.contrast light value) since every *-main token above is now a light pastel, and black text is legible against all of them — a single deliberate value, not six independent guesses. border.main uses Material's standard dark-theme divider opacity (rgba(255,255,255,0.12)) rather than a hex color, which is why its type is still \"color\" despite not being a hex string — the validator only checks value/type presence, not hex format. Shadow overrides use reduced opacity for dark mode since light-colored shadows would be invisible against a dark surface — standard Material dark-theme convention.",
+  "color": {
+    "primary": {
+      "main": { "value": "#90CAF9", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "secondary": {
+      "main": { "value": "#CE93D8", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "error": {
+      "main": { "value": "#CF6679", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "warning": {
+      "main": { "value": "#FFCC80", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "success": {
+      "main": { "value": "#A5D6A7", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "info": {
+      "main": { "value": "#81D4FA", "type": "color" },
+      "contrast": { "value": "#1A1A1A", "type": "color" }
+    },
+    "surface": {
+      "main": { "value": "#121212", "type": "color" },
+      "contrast": { "value": "#E6E1E5", "type": "color" }
+    },
+    "border": {
+      "main": { "value": "rgba(255, 255, 255, 0.12)", "type": "color" }
+    }
+  },
+  "shadow": {
+    "none": { "value": "none", "type": "shadow" },
+    "sm": { "value": "0 1px 2px 0 rgba(0, 0, 0, 0.3)", "type": "shadow" },
+    "md": { "value": "0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3)", "type": "shadow" },
+    "lg": { "value": "0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4)", "type": "shadow" },
+    "xl": { "value": "0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4)", "type": "shadow" },
+    "2xl": { "value": "0 25px 50px -12px rgba(0, 0, 0, 0.6)", "type": "shadow" },
+    "inner": { "value": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.3)", "type": "shadow" }
+  }
+}

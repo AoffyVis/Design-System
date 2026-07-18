@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "roadmap-site",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "apps/roadmap-site", "dev"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

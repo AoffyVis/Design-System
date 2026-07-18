@@ -1,0 +1,196 @@
+# Company Design System Platform — GitHub Actions CI/CD
+# Mirrors docs/10-ci-cd.md: lint → test → build → publish → deploy-docs
+#
+# Runs on: every push/PR to main
+# Publish: only on version tags (v*)
+
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '8.15.6'
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════
+  # LINT
+  # ═══════════════════════════════════════════════════════════════════
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint docs (Link Validator)
+        run: pnpm run lint:docs
+
+      - name: TypeScript type check
+        run: pnpm -r exec tsc --noEmit
+
+  # ═══════════════════════════════════════════════════════════════════
+  # TEST
+  # ═══════════════════════════════════════════════════════════════════
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build packages (tokens → css-core → generator)
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm test
+
+  # ═══════════════════════════════════════════════════════════════════
+  # BUILD
+  # ═══════════════════════════════════════════════════════════════════
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Bundle size check
+        run: |
+          GZIP_SIZE=$(gzip -c dist/core.css | wc -c)
+          echo "core.css gzipped: ${GZIP_SIZE} bytes"
+          if [ "$GZIP_SIZE" -gt 102400 ]; then
+            echo "::error::core.css exceeds 100KB gzip budget (${GZIP_SIZE} bytes)"
+            exit 1
+          fi
+          echo "✓ Within budget"
+
+      - name: Build roadmap-site
+        run: pnpm --dir apps/roadmap-site run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            dist/
+            packages/tokens/dist/
+            packages/css-core/dist/
+          retention-days: 7
+
+  # ═══════════════════════════════════════════════════════════════════
+  # PUBLISH (only on version tags)
+  # ═══════════════════════════════════════════════════════════════════
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@company'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      - name: Publish packages
+        run: |
+          pnpm --filter @company/tokens publish --no-git-checks --access restricted || true
+          pnpm --filter @company/css-core publish --no-git-checks --access restricted || true
+          pnpm --filter @company/generator publish --no-git-checks --access restricted || true
+          pnpm --filter @company/cli publish --no-git-checks --access restricted || true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ═══════════════════════════════════════════════════════════════════
+  # DEPLOY DOCS (only on version tags)
+  # ═══════════════════════════════════════════════════════════════════
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: publish
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm --dir apps/roadmap-site run build
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/roadmap-site/.next/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

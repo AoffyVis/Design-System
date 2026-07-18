@@ -1,0 +1,36 @@
+{
+  "typography": {
+    "body": {
+      "md": {
+        "fontFamily": { "value": "'Inter', sans-serif", "type": "fontFamily" },
+        "fontSize": { "value": "1rem", "type": "dimension" },
+        "fontWeight": { "value": 400, "type": "fontWeight" },
+        "lineHeight": { "value": 1.5, "type": "number" },
+        "letterSpacing": { "value": "0.00938em", "type": "dimension" }
+      },
+      "sm": {
+        "fontFamily": { "value": "'Inter', sans-serif", "type": "fontFamily" },
+        "fontSize": { "value": "0.875rem", "type": "dimension" },
+        "fontWeight": { "value": 400, "type": "fontWeight" },
+        "lineHeight": { "value": 1.43, "type": "number" },
+        "letterSpacing": { "value": "0.01071em", "type": "dimension" }
+      }
+    },
+    "heading": {
+      "h1": {
+        "fontFamily": { "value": "'Inter', sans-serif", "type": "fontFamily" },
+        "fontSize": { "value": "2.125rem", "type": "dimension" },
+        "fontWeight": { "value": 700, "type": "fontWeight" },
+        "lineHeight": { "value": 1.235, "type": "number" },
+        "letterSpacing": { "value": "0.00735em", "type": "dimension" }
+      },
+      "h2": {
+        "fontFamily": { "value": "'Inter', sans-serif", "type": "fontFamily" },
+        "fontSize": { "value": "1.5rem", "type": "dimension" },
+        "fontWeight": { "value": 700, "type": "fontWeight" },
+        "lineHeight": { "value": 1.334, "type": "number" },
+        "letterSpacing": { "value": "0em", "type": "dimension" }
+      }
+    }
+  }
+}

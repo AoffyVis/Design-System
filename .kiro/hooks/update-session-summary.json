@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Update Session Summary",
+      "description": "After each agent session ends, append a session entry to docs/SESSION-SUMMARY.md with what was accomplished, estimated tokens/credits, time spent, and files modified.",
+      "trigger": "Stop",
+      "action": {
+        "type": "agent",
+        "prompt": "Append a new session entry to docs/SESSION-SUMMARY.md. Include: date, what was accomplished in this session, estimated token usage (input/output), estimated cost, approximate time spent, and a list of files created or modified. Keep the format consistent with existing entries in the file."
+      },
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "zIndex": {
+    "hide": { "value": -1, "type": "number" },
+    "base": { "value": 0, "type": "number" },
+    "dropdown": { "value": 1000, "type": "number" },
+    "sticky": { "value": 1100, "type": "number" },
+    "fixed": { "value": 1200, "type": "number" },
+    "overlay": { "value": 1300, "type": "number" },
+    "modal": { "value": 1400, "type": "number" },
+    "popover": { "value": 1500, "type": "number" },
+    "tooltip": { "value": 1600, "type": "number" }
+  }
+}
