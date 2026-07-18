@@ -4530,3 +4530,294 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 50 — 18 July 2025 (git push rejected — advised options)
+
+### What Was Accomplished
+
+- User attempted `git push` to GitHub but got rejected (remote has work not in local — likely auto-generated README/LICENSE from repo creation)
+- Advised two options:
+  - Option A: `git pull --allow-unrelated-histories` then push (safe merge)
+  - Option B: `git push --force` (overwrites remote — appropriate if remote only has auto-generated files)
+- Awaiting user's confirmation on which approach to take (force push is destructive, needs explicit permission)
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.04 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Diagnosing push error + advising | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,659K |
+| Total output tokens | ~983K |
+| Total estimated cost | ~$23.13 |
+| Total time (Kiro) | ~7.3 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 51 — 18 July 2025 (pushed to GitHub)
+
+### What Was Accomplished
+
+- User confirmed remote repo only has auto-generated files (README/LICENSE)
+- Executed `git push -u origin main --force` successfully
+- All project code now live at https://github.com/AoffyVis/Design-System
+- GitHub Actions CI pipeline will trigger on next push/PR
+- Advised user to `git tag v0.1.0 && git push origin v0.1.0` when ready to trigger publish+deploy
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.03 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Force push to GitHub | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- (none — only git remote state changed)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,664K |
+| Total output tokens | ~984K |
+| Total estimated cost | ~$23.16 |
+| Total time (Kiro) | ~7.3 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 52 — 18 July 2025 (rename branch main → master)
+
+### What Was Accomplished
+
+- Renamed local branch from `main` to `master` (`git branch -m main master`)
+- Force-pushed `master` to GitHub remote
+- Set upstream tracking: `master` → `origin/master`
+- Updated `.github/workflows/ci.yml` to trigger on `master` instead of `main`
+- Attempted to delete remote `main` — rejected because GitHub still has it as default
+- Instructed user to change default branch to `master` via GitHub Settings (web UI), then delete `main`
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~10K |
+| Output tokens | ~3K |
+| Estimated cost | ~$0.08 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Branch rename + push | ~2 min |
+| Updating CI workflow | ~1 min |
+| Attempting to delete remote main + advising | ~1 min |
+| **Subtotal** | **~4 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `.github/workflows/ci.yml` (branches: main → master)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,674K |
+| Total output tokens | ~987K |
+| Total estimated cost | ~$23.24 |
+| Total time (Kiro) | ~7.4 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 53 — 18 July 2025 (re-explained GitHub default branch issue)
+
+### What Was Accomplished
+
+- User tried `git push origin --delete main` again — same rejection
+- Re-explained: GitHub refuses to delete the current default branch via git CLI
+- Provided step-by-step instructions to change default branch via GitHub web UI (Settings → Default branch → switch to master → Update)
+- Awaiting user to make the change on GitHub, then will delete `main` remotely
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.03 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Re-explaining the issue | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,679K |
+| Total output tokens | ~988K |
+| Total estimated cost | ~$23.27 |
+| Total time (Kiro) | ~7.4 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 54 — 18 July 2025 (gitignore review + update)
+
+### What Was Accomplished
+
+- User asked if anything should be in .gitignore to hide from others
+- Audited all tracked files via `git ls-files` for sensitive content
+- Found `.claude/settings.local.json` exists locally (has personal paths + Claude permissions) but was already untracked — confirmed safe
+- Updated `.gitignore` with proper exclusions:
+  - `.claude/settings.local.json` (personal Claude Code settings)
+  - `.env` / `.env.local` / `.env.*.local` (environment variables)
+  - `.DS_Store` / `Thumbs.db` (OS junk)
+  - `.vscode/` / `.idea/` (IDE configs)
+- Confirmed no sensitive files are currently tracked in git
+- `pnpm-lock.yaml` kept tracked (needed for CI `--frozen-lockfile`)
+- `.claude/launch.json` kept tracked (just dev server config, not sensitive)
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~12K |
+| Output tokens | ~4K |
+| Estimated cost | ~$0.10 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Auditing tracked files for sensitive content | ~2 min |
+| Updating .gitignore | ~2 min |
+| **Subtotal** | **~4 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `.gitignore` (added .claude/settings.local.json, .env*, .DS_Store, IDE dirs)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,691K |
+| Total output tokens | ~992K |
+| Total estimated cost | ~$23.37 |
+| Total time (Kiro) | ~7.5 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 55 — 18 July 2025 (confirmed SESSION-SUMMARY.md stays tracked)
+
+### What Was Accomplished
+
+- User confirmed `docs/SESSION-SUMMARY.md` should remain tracked (internal use, not sensitive)
+- No changes needed
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~3K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.02 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Acknowledgment | <1 min |
+| **Subtotal** | **<1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,694K |
+| Total output tokens | ~993K |
+| Total estimated cost | ~$23.39 |
+| Total time (Kiro) | ~7.5 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---

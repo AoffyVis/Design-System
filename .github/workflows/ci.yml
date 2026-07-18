@@ -8,10 +8,10 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     tags: ['v*']
   pull_request:
-    branches: [main]
+    branches: [master]
 
 env:
   NODE_VERSION: '20'

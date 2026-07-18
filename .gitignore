@@ -2,3 +2,19 @@ node_modules/
 dist/
 .next/
 *.tsbuildinfo
+.DS_Store
+
+# Claude Code local settings (contains personal paths + permissions)
+.claude/settings.local.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
