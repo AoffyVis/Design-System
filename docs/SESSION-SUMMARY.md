@@ -5759,3 +5759,106 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 69 — 18 July 2025 (confirmed CDN usage ready)
+
+### What Was Accomplished
+
+- User asked "ลองใช้งานได้เลยใช่ไหม" (can I try using it now?)
+- Confirmed: yes, dist/ is on `features/dev` branch — CDN URLs work with `@features/dev` suffix
+- Provided complete copy-paste HTML test page with all component types (buttons, card, input, badges, alerts)
+- Noted: after PR merge to `master`, switch URLs to `@master`
+- No code changes — informational only
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.04 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Confirming branch status + providing test HTML | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,859K |
+| Total output tokens | ~1,037K |
+| Total estimated cost | ~$24.57 |
+| Total time (Kiro) | ~8.1 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 70 — 18 July 2025 (platform test examples)
+
+### What Was Accomplished
+
+- User requested a markdown file with test examples for all Supported Platforms
+- Created `examples/PLATFORM-TESTS.md` covering 9 platforms:
+  1. Plain HTML (no server required)
+  2. React (Vite)
+  3. Next.js (App Router)
+  4. Vue (Vite)
+  5. Angular
+  6. Svelte (Vite)
+  7. Blazor (WASM)
+  8. ASP.NET MVC / Razor Pages
+  9. Laravel (Blade)
+- Each example includes: project setup commands, where to add `<link>` tags, a working component demo, and run command
+- Added theme switching guide + verification checklist at the bottom
+- All examples use the same pattern: CDN `<link>` in `<head>` + use classes directly
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~6K |
+| Estimated cost | ~$0.11 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Writing 9 platform examples + checklist | ~5 min |
+| **Subtotal** | **~5 min** |
+
+### Files Created
+
+- `examples/PLATFORM-TESTS.md` (9 platform test examples + verification checklist)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,867K |
+| Total output tokens | ~1,043K |
+| Total estimated cost | ~$24.68 |
+| Total time (Kiro) | ~8.2 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
