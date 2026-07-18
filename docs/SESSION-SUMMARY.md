@@ -5704,3 +5704,58 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 68 — 18 July 2025 (fix CI: remove roadmap-site build)
+
+### What Was Accomplished
+
+- User reported CI error: `Cannot find module 'fast-glob'` when running `pnpm --dir apps/roadmap-site run build` in CI
+- Root cause: `apps/roadmap-site` is not in `pnpm-workspace.yaml`, so root `pnpm install --frozen-lockfile` doesn't install its deps — locally it works because it has its own `node_modules` from its own `pnpm-lock.yaml`
+- User chose to ignore `apps/` rather than adding to workspace (avoids pulling ~400 Next.js deps into CI install)
+- Removed `"Build roadmap-site"` step from `.github/workflows/ci.yml` — it's a demo/docs site, not a publishable package
+- Added comment explaining why and how to build locally
+- Briefly tried adding `apps/*` to workspace but reverted (user's preference)
+- Verified: `pnpm build` ✅, `pnpm test` 75/75 ✅, `pnpm run lint` ✅, `tsc --noEmit` ✅
+- Committed and pushed to `features/dev`
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~15K |
+| Output tokens | ~5K |
+| Estimated cost | ~$0.12 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Diagnosing error (reading script + workspace config) | ~2 min |
+| Tried workspace approach, then reverted per user | ~2 min |
+| Removing roadmap-site build from CI | ~2 min |
+| Verification + commit + push | ~2 min |
+| **Subtotal** | **~8 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `.github/workflows/ci.yml` (removed roadmap-site build step, added explanatory comment)
+- `pnpm-workspace.yaml` (briefly added apps/*, reverted back to original)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,854K |
+| Total output tokens | ~1,035K |
+| Total estimated cost | ~$24.53 |
+| Total time (Kiro) | ~8.1 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
