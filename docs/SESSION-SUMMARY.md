@@ -6004,3 +6004,152 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 | Equivalent human effort | ~12–14 work days |
 
 ---
+
+## Session 74 — 18 July 2025 (next task review)
+
+### What Was Accomplished
+
+- User asked "ดู task ถัดไปหน่อย" (what's next?)
+- Read `docs/11-roadmap.md` — confirmed Milestones 1–7 all Done
+- Presented remaining options:
+  - **Milestone 8**: VS Code Extension (large — autocomplete, validation, color preview)
+  - **Milestone 9**: v1.0 Release (small-medium — housekeeping + tag + publish)
+  - **Other**: more components, example projects, repo visibility change
+- Awaiting user's choice on what to work on next
+- No code changes
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Reading roadmap + presenting options | ~2 min |
+| **Subtotal** | **~2 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,896K |
+| Total output tokens | ~1,054K |
+| Total estimated cost | ~$24.91 |
+| Total time (Kiro) | ~8.3 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 75 — 18 July 2025 (user progress update)
+
+### What Was Accomplished
+
+- User confirmed two items done externally:
+  - Repo visibility changed to public → jsdelivr CDN now works
+  - Example project created at `KIRO-POC/DS-SYS-TEST_UI`
+- Summarized remaining work (Milestone 8/9, optional components, README URL update)
+- Awaiting user's decision on next steps or POC conclusion
+- No code changes
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~5K |
+| Output tokens | ~1K |
+| Estimated cost | ~$0.03 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Noting progress + presenting remaining items | ~1 min |
+| **Subtotal** | **~1 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,901K |
+| Total output tokens | ~1,055K |
+| Total estimated cost | ~$24.94 |
+| Total time (Kiro) | ~8.3 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
+
+## Session 76 — 18 July 2025 (update CDN URLs to @master)
+
+### What Was Accomplished
+
+- User confirmed PR merged to master
+- Searched all files for `@features/dev` references
+- Updated `examples/PLATFORM-TESTS.md` — all 24 CDN URLs changed from `@features/dev` to `@master`
+- `README.md` already used `@master` — no change needed
+- `docs/SESSION-SUMMARY.md` references left as-is (historical log)
+- Committed and pushed to `features/dev`
+
+### Token & Credit Estimate (this session segment)
+
+| Metric | Estimate |
+|--------|----------|
+| Input tokens | ~8K |
+| Output tokens | ~2K |
+| Estimated cost | ~$0.05 |
+
+### Time Spent
+
+| Activity | Approx |
+|----------|--------|
+| Searching for @features/dev references | ~1 min |
+| Updating PLATFORM-TESTS.md | ~1 min |
+| Commit + push | ~1 min |
+| **Subtotal** | **~3 min** |
+
+### Files Created
+
+- (none)
+
+### Files Modified
+
+- `examples/PLATFORM-TESTS.md` (all CDN URLs: @features/dev → @master)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
+
+## Cumulative Totals (all sessions — Kiro only)
+
+| Metric | Estimate |
+|--------|----------|
+| Total input tokens | ~2,909K |
+| Total output tokens | ~1,057K |
+| Total estimated cost | ~$24.99 |
+| Total time (Kiro) | ~8.4 hours |
+| Equivalent human effort | ~12–14 work days |
+
+---
