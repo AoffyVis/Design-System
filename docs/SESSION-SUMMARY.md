@@ -7132,3 +7132,29 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 - `docs/SESSION-SUMMARY.md` (this entry)
 
 ---
+
+## Session — 2026-07-19 (Claude, found and fixed a foundational `@layer` ordering bug affecting every component+utility combination sitewide)
+
+### What Was Accomplished
+
+- User was testing the framework in a separate consumer project (`DS-SYS-TEST_UI/html`, outside this repo) that loads CSS from the jsdelivr CDN at `@master`, and reported the new Table/Modal/Nav/Tabs components rendering completely unstyled while Buttons/Badges/Alerts looked fine.
+- **First finding (CDN cache, not a code bug):** confirmed `origin/master` already had the merged `features/dev` work (PR #3, merged 2026-07-19 01:51) with all 32 new component classes present in `dist/core.css`. But `curl -sI` against the live jsdelivr URL showed `age: 34862` (~9.7h) with `cache-control: s-maxage=43200` — jsdelivr's edge cache still had the pre-merge file. Purged all 6 affected paths (`tokens.css`, `core.css`, 4 theme files) via `purge.jsdelivr.net` (all returned `status: finished`); reverified `age` header reset and the 32 classes now present in the live CDN response.
+- User then asked to restructure `DS-SYS-TEST_UI/html/index.html` from a flat component-gallery list into a realistic single-page dashboard layout (sticky nav header with the theme toggle and mobile menu, alerts banner, a 2/3+1/3 `grid lg:grid-cols-3` main area with a Team-members table card and Account-settings/Invite-teammate cards, danger-zone delete-project modal) — done while preserving every ID/class/data-attribute the existing `showcase.js` depends on (verified no JS changes were needed). Verified live at both 375px/768px/1280px via a temporary local static server (added a throwaway `ds-sys-test-html` entry to `.claude/launch.json`, since the page lives outside this repo and outside the sandboxed preview's live-JS support for `file://` paths).
+- **Second, much larger finding, during that same live verification**: at desktop width, the `Menu` hamburger button (`class="btn btn-outline btn-sm md:hidden"`) never disappeared, even though `.md\:hidden { display: none }` should apply at `min-width: 768px`. Root cause traced to `packages/css-core/lib/assembler.ts`'s layer declaration: `@layer reset, base, utilities, components, theme;` — **`utilities` was declared before `components`**. Per the CSS cascade-layers spec, when two rules tie on specificity, the *later-declared layer always wins*, regardless of media query truth or source order. `.btn { display: inline-flex }` lives in the `components` layer (later), so it permanently beat `.md\:hidden`'s `display: none` (`utilities`, earlier) — confirmed directly: `.btn` sits at `dist/core.css` line 2573+ inside `@layer components`.
+  - **Blast radius**: this isn't specific to `md:hidden` or to this test page — it's the general rule that *any* utility class combined with *any* component class, for *any* overlapping CSS property, silently loses to the component's default. This inverts the entire premise of a utility-first system (utilities are supposed to be the override mechanism) and has been present since the very first commit (`caae6ba`), not introduced by a later session.
+- **Fixed by Claude** (user explicitly approved fixing the framework, not just documenting it): swapped the layer order to `reset, base, components, utilities, theme` in `assembler.ts` (reordered both the declaration string and the section-assembly code/comments to match), updated the one test asserting the old order (`packages/css-core/__tests__/integration.test.ts`), and updated the two docs mentioning the old order (`docs/08-build.md`, two spots).
+- **Verified the fix three ways**: (1) ran `pnpm run build` — regenerated `dist/core.css` now starts `@layer reset, base, components, utilities, theme;` with `components` at line 32 and `utilities` at line 538; (2) `pnpm run test` — 75/75 still pass; (3) live in the browser — built a minimal scratch HTML file (deleted after use) loading the freshly-built local `dist/`, confirmed `#nav-toggle`'s computed `display` is now `none` at 1280px width (was `flex` before the fix).
+- Ran `pnpm run lint` (link validator) after the doc edits — clean.
+- **Not yet done**: this fix is only committed locally on `features/dev` — the CDN-served `@master` files still have the old (broken) layer order until this is committed, and a new PR is merged. The user said they'll open the PR themselves; this fix has not been committed to git as part of this session (per standing instructions to only commit when explicitly asked).
+
+### Files Modified
+
+- `packages/css-core/lib/assembler.ts` (swapped `@layer` order so `components` precedes `utilities`; reordered the corresponding assembly code/comments)
+- `packages/css-core/__tests__/integration.test.ts` (updated the layer-order assertion to match)
+- `docs/08-build.md` (two mentions of the layer order corrected)
+- `dist/core.css` + `dist/tokens.css` + `dist/themes/*.css` (regenerated via `pnpm run build`)
+- `/Users/jirawaka/tltprojects/KIRO-POC/DS-SYS-TEST_UI/html/index.html` (external project — restructured into a realistic dashboard layout, not part of this repo's git history)
+- `.claude/launch.json` (added, then removed after use, a temporary static-server entry for verifying the external test project and the layer-order fix; only the reusable `ds-sys-test-html` entry was kept)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---

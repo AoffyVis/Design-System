@@ -7,6 +7,12 @@
       "runtimeArgs": ["--dir", "apps/roadmap-site", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "ds-sys-test-html",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4173", "--directory", "/Users/jirawaka/tltprojects/KIRO-POC/DS-SYS-TEST_UI/html"],
+      "port": 4173
     }
   ]
 }
