@@ -4,8 +4,14 @@
   "private": true,
   "type": "module",
   "main": "lib/index.ts",
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "scripts": {
     "build": "tsx lib/build.ts",
+    "prepublishOnly": "pnpm run build",
     "test": "vitest run"
   },
   "devDependencies": {

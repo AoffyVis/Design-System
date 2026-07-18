@@ -1,5 +1,7 @@
 node_modules/
-dist/
+# dist/ is tracked so it can be served via GitHub CDN (jsdelivr)
+# Per-package dist is still ignored; only root dist/ is committed
+packages/*/dist/
 .next/
 *.tsbuildinfo
 .DS_Store

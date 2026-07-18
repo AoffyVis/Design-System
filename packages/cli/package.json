@@ -4,16 +4,23 @@
   "private": true,
   "type": "module",
   "bin": {
-    "ds-generate": "bin/ds-generate.ts"
+    "ds-generate": "dist/ds-generate.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "generate": "tsx bin/ds-generate.ts",
+    "build:pkg": "tsup",
+    "prepublishOnly": "pnpm run build:pkg",
     "test": "vitest run"
   },
   "dependencies": {
     "@company/generator": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^26.1.0",
+    "tsup": "^8.5.1",
     "tsx": "4.19.4",
     "typescript": "5.8.3",
     "vitest": "1.6.0"

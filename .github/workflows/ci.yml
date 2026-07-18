@@ -105,8 +105,10 @@ jobs:
           fi
           echo "✓ Within budget"
 
-      - name: Build roadmap-site
-        run: pnpm --dir apps/roadmap-site run build
+      # roadmap-site is not in the pnpm workspace (has its own lockfile)
+      # and requires a separate install. Skipped in CI — it's a demo/docs
+      # site, not a publishable package. Build it locally with:
+      # cd apps/roadmap-site && pnpm install && pnpm build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -156,13 +158,24 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ═══════════════════════════════════════════════════════════════════
-  # DEPLOY DOCS (only on version tags)
+  # DEPLOY DOCS (only on version tags) — DISABLED, see comment below
   # ═══════════════════════════════════════════════════════════════════
+  # Disabled 2026-07-18: this job uploads apps/roadmap-site/.next/ (a
+  # standard Next.js server build) straight to GitHub Pages, which only
+  # serves static files with no Node.js runtime behind it.
+  # `pnpm --dir apps/roadmap-site run build` reports
+  # `/demo/design-system.css` as "ƒ (Dynamic) server-rendered on demand" —
+  # a real server-side route, not a static asset — and next.config.ts has
+  # no `output: 'export'`. That route (and the whole live-CSS-rendering
+  # feature of /demo, the point of this POC) would not function if this
+  # job actually ran. Re-enable only after either redesigning that route
+  # to be static (defeats its purpose) or moving deployment to a host
+  # that runs a real Next.js server (not GitHub Pages).
   deploy-docs:
     name: Deploy Documentation
     runs-on: ubuntu-latest
     needs: publish
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: false && startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: read
       pages: write

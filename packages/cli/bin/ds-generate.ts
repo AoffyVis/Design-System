@@ -1,9 +1,14 @@
-#!/usr/bin/env tsx
 /**
  * ds-generate — CLI entry point for the Design System Generator
  *
  * Parses arguments, invokes the generator pipeline, and reports results.
  * Exit codes: 0 = success, 1 = validation failure, 2 = I/O or usage error
+ *
+ * No shebang here — this source runs via `tsx` for local dev
+ * (`pnpm generate`), and the published bin is the tsup-compiled output in
+ * dist/, which gets its own `#!/usr/bin/env node` shebang from
+ * tsup.config.ts's banner. A shebang on this file would end up duplicated
+ * (and syntactically broken) in the compiled output.
  */
 import { resolve } from 'node:path';
 import { generate } from '@company/generator';

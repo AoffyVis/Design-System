@@ -7,8 +7,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "rootDir": ".",
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@company/generator": ["../generator/lib/index.ts"]
+    }
   },
   "include": ["bin/**/*.ts", "lib/**/*.ts"]
 }
