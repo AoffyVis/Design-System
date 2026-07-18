@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect } from "react";
 
+import AdvancedComponentsDemo from "@/components/AdvancedComponentsDemo";
+
 // --- Types ---
 
 interface ColorToken {
@@ -133,23 +135,38 @@ export default function DemoPage() {
     setTimeout(() => setToast(null), 2000);
   }, []);
 
+  const copyToClipboard = useCallback(
+    (text: string) => {
+      const failureMessage = `Copy failed — select and copy manually: ${text}`;
+
+      try {
+        if (!navigator.clipboard) {
+          throw new Error("Clipboard API unavailable");
+        }
+
+        navigator.clipboard.writeText(text).then(
+          () => showToast(`Copied: ${text}`),
+          () => showToast(failureMessage),
+        );
+      } catch {
+        showToast(failureMessage);
+      }
+    },
+    [showToast],
+  );
+
   const copyToken = useCallback(
     (variable: string) => {
-      const text = `var(${variable})`;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(`Copied: ${text}`);
-      });
+      copyToClipboard(`var(${variable})`);
     },
-    [showToast]
+    [copyToClipboard],
   );
 
   const copyClasses = useCallback(
     (classes: string) => {
-      navigator.clipboard.writeText(classes).then(() => {
-        showToast(`Copied: ${classes}`);
-      });
+      copyToClipboard(classes);
     },
-    [showToast]
+    [copyToClipboard],
   );
 
   const toggleDarkMode = useCallback(() => {
@@ -187,7 +204,7 @@ export default function DemoPage() {
             🎨 Company Design System
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90 sm:text-xl">
-            87 Design Tokens · 8 Categories · ~1,500 Utility Classes · 5 Components · Dark Mode
+            87 Design Tokens · 8 Categories · ~1,500 Utility Classes · 9 Components · Dark Mode
           </p>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-white/70">
             Everything below marked <span className="font-mono">live</span> renders with the
@@ -456,80 +473,88 @@ export default function DemoPage() {
           <p className="mt-1 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
             Composed UI patterns, not isolated swatches — every color,
             spacing, radius, shadow, and typography value below comes from a
-            real utility class. Layout (flex/stacking) is plain CSS, since
-            this project doesn&apos;t generate layout utilities yet.
+            real utility class. Layout uses the generated responsive
+            utilities, so these examples are mobile-first rather than
+            simulated with inline styles.
           </p>
 
+          {/* min-w-0 on the grid items: without it, the code samples' long
+              unbreakable <pre> lines set each item's min-content width
+              (~925px here), forcing the grid track past the page container
+              and making the whole page scroll horizontally on mobile. */}
           <div className="mt-6 grid gap-8 lg:grid-cols-2">
-            <div>
+            <div className="min-w-0">
               <h3 className="mb-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                 Notification list
               </h3>
-              <div className="flex flex-col gap-3">
+              <div data-ds-live className="flex w-full flex-col gap-3 md:flex-row">
                 {/* data-ds-live is required on every element carrying a real
                     class — the generated CSS matches `[data-ds-live].bg-success`
                     as one compound selector, so it has no effect on a child
-                    that doesn't also carry the attribute. Nested text here
-                    just inherits `color` from its parent, which is enough. */}
+                    that doesn't also carry the attribute. */}
                 <div
                   data-ds-live
-                  className="p-4 rounded-md shadow-sm bg-success text-success-contrast"
+                  className="w-full p-4 rounded-md shadow-sm bg-success text-success-contrast md:flex-1"
                 >
                   <strong>Deploy succeeded</strong>
-                  <p className="mt-1 text-sm opacity-90">
+                  <p data-ds-live className="mt-1 text-sm opacity-90">
                     packages/css-core built with 0 errors.
                   </p>
                 </div>
                 <div
                   data-ds-live
-                  className="p-4 rounded-md shadow-sm bg-warning text-warning-contrast"
+                  className="w-full p-4 rounded-md shadow-sm bg-warning text-warning-contrast md:flex-1"
                 >
                   <strong>2 optional tests skipped</strong>
                 </div>
                 <div
                   data-ds-live
-                  className="p-4 rounded-md shadow-sm bg-error text-error-contrast"
+                  className="w-full p-4 rounded-md shadow-sm bg-error text-error-contrast md:flex-1"
                 >
                   <strong>Token validation failed</strong>
-                  <p className="mt-1 text-sm opacity-90">
+                  <p data-ds-live className="mt-1 text-sm opacity-90">
                     color.primary.alias references a missing token.
                   </p>
                 </div>
               </div>
               <CodeBlock>
-                {`<div class="p-4 rounded-md shadow-sm bg-success text-success-contrast">\n  <strong>Deploy succeeded</strong>\n</div>`}
+                {`<div class="flex w-full flex-col gap-3 md:flex-row">
+  <div class="w-full p-4 rounded-md shadow-sm bg-success text-success-contrast md:flex-1">
+    <strong>Deploy succeeded</strong>
+  </div>
+</div>`}
               </CodeBlock>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <h3 className="mb-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                 Action bar
               </h3>
               <div
                 data-ds-live
-                className="flex flex-wrap gap-3 p-6 rounded-xl shadow-md bg-primary-light"
+                className="flex w-full flex-col gap-3 p-6 rounded-xl shadow-md bg-primary-light md:flex-row md:items-center"
               >
                 <button
                   data-ds-live
-                  className="px-6 py-3 rounded-full shadow-sm bg-primary text-primary-contrast"
+                  className="w-full px-6 py-3 rounded-full shadow-sm bg-primary text-primary-contrast md:w-auto"
                 >
                   Confirm
                 </button>
                 <button
                   data-ds-live
-                  className="px-6 py-3 rounded-full shadow-sm bg-secondary text-secondary-contrast"
+                  className="w-full px-6 py-3 rounded-full shadow-sm bg-secondary text-secondary-contrast md:w-auto"
                 >
                   Save Draft
                 </button>
                 <button
                   data-ds-live
-                  className="px-6 py-3 rounded-full shadow-sm bg-error text-error-contrast"
+                  className="w-full px-6 py-3 rounded-full shadow-sm bg-error text-error-contrast md:w-auto"
                 >
                   Delete
                 </button>
               </div>
               <CodeBlock>
-                {`<div class="flex flex-wrap gap-3 p-6 rounded-xl shadow-md bg-primary-light">\n  <button class="px-6 py-3 rounded-full shadow-sm bg-primary text-primary-contrast">Confirm</button>\n  <button class="px-6 py-3 rounded-full shadow-sm bg-secondary text-secondary-contrast">Save Draft</button>\n  <button class="px-6 py-3 rounded-full shadow-sm bg-error text-error-contrast">Delete</button>\n</div>`}
+                {`<div class="flex w-full flex-col gap-3 p-6 rounded-xl shadow-md bg-primary-light md:flex-row md:items-center">\n  <button class="w-full px-6 py-3 rounded-full shadow-sm bg-primary text-primary-contrast md:w-auto">Confirm</button>\n  <button class="w-full px-6 py-3 rounded-full shadow-sm bg-secondary text-secondary-contrast md:w-auto">Save Draft</button>\n  <button class="w-full px-6 py-3 rounded-full shadow-sm bg-error text-error-contrast md:w-auto">Delete</button>\n</div>`}
               </CodeBlock>
             </div>
           </div>
@@ -641,7 +666,7 @@ export default function DemoPage() {
 
           {/* Card + Input */}
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            <div>
+            <div className="min-w-0">
               <h3 className="mb-3 text-lg font-semibold text-zinc-800 dark:text-zinc-200">
                 Card
               </h3>
@@ -668,7 +693,7 @@ export default function DemoPage() {
               </CodeBlock>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <h3 className="mb-3 text-lg font-semibold text-zinc-800 dark:text-zinc-200">
                 Input
               </h3>
@@ -692,6 +717,8 @@ export default function DemoPage() {
             </div>
           </div>
         </section>
+
+        <AdvancedComponentsDemo />
 
         {/* Concept Cards */}
         <section className="mb-16">
@@ -745,7 +772,7 @@ export default function DemoPage() {
                 </strong>
               </div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                84 tokens validated · 3 output files generated · 0 errors
+                87 tokens validated · 3 output files generated · 0 errors
               </p>
             </div>
 

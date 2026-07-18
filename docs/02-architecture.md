@@ -13,7 +13,7 @@ The Design System Platform is organized as a monorepo with four core packages un
 | Package | Responsibility |
 |---|---|
 | `packages/tokens` | Authored Design Token definitions (JSON). Single source of truth for every visual value. |
-| `packages/css-core` | Generated CSS output — reset/base layer, utility classes, pre-composed component classes (`.btn`, `.card`, `.badge`, `.input`, `.alert`), theme files, and CSS Custom Properties derived from tokens. |
+| `packages/css-core` | Generated CSS output — reset/base layer, utility classes, pre-composed component classes (`.btn`, `.card`, `.badge`, `.input`, `.alert`, `.table`, `.modal`, `.nav`, `.tabs`), table presentation states for sorting/filtering/pagination, theme files, and CSS Custom Properties derived from tokens. |
 | `packages/generator` | Token parser, validator, semantic graph resolver, and transform engine. Reads tokens, produces all output formats. |
 | `packages/cli` | Command-line interface wrapping the generator for local development and CI/CD invocation. |
 
@@ -49,7 +49,7 @@ Transform Engine (packages/generator)
 2. **Validation** — The generator reads every token file and validates it against naming conventions and schema rules. A failing token halts the build entirely — no partial output is produced.
 3. **Semantic Graph** — Valid tokens are resolved into an in-memory graph. Aliases and semantic references (e.g. `color.primary` → `palette.blue.600`) are fully resolved so every downstream format receives both resolved values and semantic names.
 4. **Transform** — The engine walks the graph once and emits one output per target format in the same build step, guaranteeing outputs never drift from one another.
-5. **CSS Core** — CSS Custom Properties land in `packages/css-core`, which also houses the reset/base layer, utility classes, a components layer (pre-composed classes like `.btn`/`.card`/`.badge`/`.input`/`.alert` that combine multiple token references into one reusable class — see [docs/spec/components.md](spec/components.md)), and theme stylesheets generated from those properties. The CSS layer order is reset → base → utilities → components → theme.
+5. **CSS Core** — CSS Custom Properties land in `packages/css-core`, which also houses the reset/base layer, utility classes, a components layer (pre-composed classes like `.btn`/`.card`/`.badge`/`.input`/`.alert`/`.table`/`.modal`/`.nav`/`.tabs` that combine multiple token references into reusable classes — see [docs/spec/components.md](spec/components.md)), and theme stylesheets generated from those properties. Table sorting, filtering, and pagination are exposed as CSS presentation states; application logic remains framework-owned. The CSS layer order is reset → base → utilities → components → theme.
 
 ---
 

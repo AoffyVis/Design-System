@@ -66,6 +66,56 @@ Optional themes:
 
     <!-- Alerts -->
     <div class="alert alert-info mt-4">This is an info alert.</div>
+
+    <!-- Table -->
+    <div class="table-filter mt-6">
+      <label for="user-filter">Filter</label>
+      <input id="user-filter" class="table-filter-input" type="search" placeholder="Search users...">
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="th-sortable th-sort-asc" aria-sort="ascending">Name</th>
+            <th>Email</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ada Lovelace</td><td>ada@example.com</td><td><span class="badge badge-success">Active</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <nav class="table-pagination" aria-label="Table pages">
+      <button class="page-btn page-btn-active" type="button" aria-current="page">1</button>
+      <button class="page-btn" type="button">2</button>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <div class="modal-overlay"></div>
+      <section class="modal-content">
+        <header class="modal-header"><h2 id="dialog-title">Confirm</h2><button class="modal-close" type="button" aria-label="Close">×</button></header>
+        <div class="modal-body">Modal content</div>
+        <footer class="modal-footer"><button class="btn btn-primary">Confirm</button></footer>
+      </section>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav nav-horizontal mt-6" aria-label="Primary navigation">
+      <a class="nav-brand" href="/">Acme</a>
+      <a class="nav-link nav-link-active" href="/" aria-current="page">Home</a>
+      <a class="nav-link" href="/settings">Settings</a>
+    </nav>
+
+    <!-- Tabs -->
+    <div class="tabs mt-6">
+      <div class="tab-list" role="tablist" aria-label="Sections">
+        <button class="tab-item tab-active" type="button" role="tab" aria-selected="true">Overview</button>
+        <button class="tab-item" type="button" role="tab" aria-selected="false">Details</button>
+      </div>
+      <div class="tab-panel tab-panel-active" role="tabpanel">Overview content</div>
+    </div>
   </div>
 
   <!-- Switch theme via JavaScript -->
@@ -133,6 +183,23 @@ Optional themes:
 | `.input` | Form input |
 | `.badge` / `.badge-success` / `.badge-error` / `.badge-warning` / `.badge-info` | Badges |
 | `.alert` / `.alert-success` / `.alert-error` / `.alert-warning` / `.alert-info` | Alerts |
+| `.table` / `.table-striped` / `.table-hover` / `.table-bordered` | Table structure and row styles |
+| `.table-compact` / `.table-responsive` | Table density and responsive overflow |
+| `.th-sortable` / `.th-sort-asc` / `.th-sort-desc` | Table sorting presentation states |
+| `.table-filter` / `.table-filter-input` | Table filter control layout and input |
+| `.table-pagination` / `.page-btn` / `.page-btn-active` | Table pagination controls and current-page state |
+| `.modal` / `.modal-open` / `.modal-overlay` / `.modal-content` | Modal wrapper, visibility, backdrop, and dialog |
+| `.modal-header` / `.modal-body` / `.modal-footer` / `.modal-close` | Modal sections and close button |
+| `.modal-sm` / `.modal-lg` / `.modal-xl` / `.modal-fullscreen` | Modal size variants |
+| `.nav` / `.nav-horizontal` / `.nav-vertical` | Navigation container and direction |
+| `.nav-brand` / `.nav-item` / `.nav-link` / `.nav-link-active` / `.nav-divider` | Navigation items and active state |
+| `.tabs` / `.tab-list` / `.tab-item` / `.tab-active` | Tabs container and controls |
+| `.tab-panel` / `.tab-panel-active` / `.tabs-bordered` / `.tabs-pills` | Tab panels and visual variants |
+
+Table sorting, filtering, and pagination classes provide visual states only.
+Use JavaScript or your framework to manage rows, filter values, page changes,
+`aria-sort`, `aria-current`, and active classes. Modal visibility and tab/nav
+state are also controlled by the consuming application.
 
 ### Borders
 

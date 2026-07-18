@@ -35,7 +35,7 @@ Token identifiers follow the `{category}.{group}.{variant}.{property}` naming co
 
 ### 2. CSS Specification Source Files
 
-The CSS layer definitions, utility class templates, and responsive/theme configuration maintained in `packages/css-core/`. These files define how resolved token values map to CSS Custom Properties, utility classes, and theme overrides.
+The CSS layer definitions, utility and component class templates, and responsive/theme configuration maintained in `packages/css-core/`. These files define how resolved token values map to CSS Custom Properties, utility classes, pre-composed components (including Table, Modal, Nav, and Tabs), and theme overrides. Table sorting, filtering, and pagination are CSS presentation states; the generator does not emit application data-management logic.
 
 Together, these inputs feed into the Token Parser & Validator — the generator's first processing stage — before any output is produced.
 

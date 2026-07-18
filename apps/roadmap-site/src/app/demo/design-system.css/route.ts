@@ -74,24 +74,32 @@ function rewriteUtilitySelectors(utilitiesCss: string): string {
 
 /**
  * Same idea as `rewriteUtilitySelectors`, but for the components layer's
- * richer selector grammar: pseudo-classes (`.btn:focus-visible`) and
- * comma-separated selector lists (`.btn:disabled, .btn-disabled`). Every
- * component rule is still a flat, unnested `.class[:pseudo] { ... }` or
- * comma-list of those — no descendant combinators or `@media` blocks are
- * emitted by `generateComponents` — so splitting each line's selector list
- * on `,` and prefixing every part is sufficient.
+ * richer selector grammar: pseudo-classes (`.btn:focus-visible`),
+ * comma-separated selector lists (`.btn:disabled, .btn-disabled`),
+ * descendant combinators (`.modal-sm .modal-content`,
+ * `.table-striped tbody tr:nth-child(even)` from the table/modal/nav/tabs
+ * generators), and selector lists that span multiple lines
+ * (`.table th,\n.table td {`). Prefixing the *first* compound of each
+ * comma-separated selector is correct for descendants too — the live
+ * container carries the variant class, so `[data-ds-live].modal-sm
+ * .modal-content` scopes exactly right.
+ *
+ * The match deliberately runs across newlines (no `m` flag, `[^{}]`
+ * includes `\n`): a per-line rewrite would leave the earlier lines of a
+ * multi-line selector list unprefixed, leaking rules like `.table th`
+ * (with `!important` forced below) onto the whole page. The components
+ * layer is flat — no nested braces or `@media` — so "everything between
+ * braces-free text and a `{`" is always exactly one selector list.
  */
 function rewriteComponentSelectors(componentsCss: string): string {
-  return componentsCss.replace(
-    /^(\s*)([^{}\n]+)\{/gm,
-    (_match, indent, selectorList) => {
-      const rewritten = (selectorList as string)
-        .split(",")
-        .map((selector) => `[${LIVE_ATTR}]${selector.trim()}`)
-        .join(", ");
-      return `${indent}${rewritten} {`;
-    }
-  );
+  return componentsCss.replace(/([^{}]+)\{/g, (_match, selectorList: string) => {
+    const leading = selectorList.match(/^\s*/)![0];
+    const rewritten = selectorList
+      .split(",")
+      .map((selector) => `[${LIVE_ATTR}]${selector.trim()}`)
+      .join(", ");
+    return `${leading}${rewritten} {`;
+  });
 }
 
 /** Forces every declaration to `!important`, unless it already is — defense in depth alongside the specificity boost above. */

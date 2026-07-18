@@ -246,6 +246,186 @@ dismiss action.
 
 ---
 
+### Table (`.table`)
+
+A semantic table foundation with optional striped rows, hover feedback,
+compact density, borders, responsive overflow, and visual states for
+sorting, filtering, and pagination.
+
+```html
+<div class="table-filter">
+  <label for="user-filter">Filter users</label>
+  <input id="user-filter" class="table-filter-input" type="search" placeholder="Search...">
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="th-sortable th-sort-asc" aria-sort="ascending">Name</th>
+        <th class="th-sortable">Email</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ada Lovelace</td>
+        <td>ada@example.com</td>
+        <td><span class="badge badge-success">Active</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<nav class="table-pagination" aria-label="Table pages">
+  <button class="page-btn" type="button">Previous</button>
+  <button class="page-btn page-btn-active" type="button" aria-current="page">1</button>
+  <button class="page-btn" type="button">Next</button>
+</nav>
+```
+
+#### Table Classes
+
+| Class | Description |
+|-------|-------------|
+| `.table` | Base full-width table with collapsed borders and token typography |
+| `.table-striped` | Alternating background on even body rows |
+| `.table-hover` | Hover highlight for body rows |
+| `.table-bordered` | Border around every header and body cell |
+| `.table-compact` | Smaller cell padding and body typography |
+| `.table-responsive` | Horizontal overflow wrapper for narrow viewports |
+| `.th-sortable` | Clickable-looking header with a neutral sort indicator |
+| `.th-sort-asc` / `.th-sort-desc` | Ascending/descending visual sort indicator |
+| `.table-filter` | Layout container for filter controls |
+| `.table-filter-input` | Token-styled filter input |
+| `.table-pagination` | Pagination control layout |
+| `.page-btn` / `.page-btn-active` | Pagination button and current-page state |
+
+The CSS supplies presentation only. It does not sort rows, filter data, or
+change pages. Consumer JavaScript must implement those behaviors and update
+the DOM, `aria-sort`, `aria-current`, and the `th-sort-*`/`page-btn-active`
+classes as state changes.
+
+---
+
+### Modal (`.modal`)
+
+A viewport-level dialog pattern. The consumer controls visibility by adding
+or removing `.modal-open`; the CSS does not provide focus trapping, escape-key
+handling, or `aria-hidden` management.
+
+```html
+<div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+  <div class="modal-overlay" data-modal-close></div>
+  <section class="modal-content">
+    <header class="modal-header">
+      <h2 id="dialog-title">Confirm action</h2>
+      <button class="modal-close" type="button" aria-label="Close dialog">×</button>
+    </header>
+    <div class="modal-body">
+      <p class="text-body-md">Are you sure you want to continue?</p>
+    </div>
+    <footer class="modal-footer">
+      <button class="btn btn-outline">Cancel</button>
+      <button class="btn btn-primary">Confirm</button>
+    </footer>
+  </section>
+</div>
+```
+
+| Class | Description |
+|-------|-------------|
+| `.modal` | Fixed, centered dialog wrapper; hidden by default |
+| `.modal-open` | Displays the modal wrapper with flex alignment |
+| `.modal-overlay` | Full-viewport backdrop |
+| `.modal-content` | Scrollable dialog surface |
+| `.modal-header` / `.modal-body` / `.modal-footer` | Dialog sections |
+| `.modal-close` | Close-button styling |
+| `.modal-sm` / `.modal-lg` / `.modal-xl` | Dialog width variants |
+| `.modal-fullscreen` | Full-viewport dialog content variant |
+
+### Navigation (`.nav`)
+
+Navigation container and link styles for horizontal or vertical menus.
+Use semantic `<nav>` and links in markup; `.nav-link-active` represents the
+current route and must be synchronized by the application. Component CSS owns
+presentation only. The consumer owns the mobile menu state, including the
+button's `aria-expanded` value and keyboard behavior.
+
+```html
+<nav class="nav nav-horizontal flex-wrap" aria-label="Primary navigation">
+  <a class="nav-brand" href="/">Acme</a>
+  <button type="button" class="md:hidden"
+          aria-expanded="false" aria-controls="primary-menu">
+    Menu
+  </button>
+  <div id="primary-menu"
+       class="hidden w-full flex-col md:flex md:w-auto md:flex-row md:items-center">
+    <div class="nav-item">
+      <a class="nav-link nav-link-active" href="/" aria-current="page">Home</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="/settings">Settings</a>
+    </div>
+    <span class="nav-divider hidden md:block" aria-hidden="true"></span>
+    <div class="nav-item">
+      <a class="nav-link" href="/help">Help</a>
+    </div>
+  </div>
+</nav>
+```
+
+On small screens, the consumer changes the menu container from `hidden` to
+`flex` when the toggle is activated, closes it on `Escape`, and closes it
+after a link is selected. At `md` and above, `md:flex` keeps the menu visible
+as a horizontal row regardless of the mobile state.
+
+| Class | Description |
+|-------|-------------|
+| `.nav` | Base surface, spacing, and border for navigation |
+| `.nav-horizontal` / `.nav-vertical` | Row or column orientation |
+| `.nav-brand` | Brand or logo link area |
+| `.nav-item` | Individual item wrapper |
+| `.nav-link` | Link styling with hover state |
+| `.nav-link-active` | Current-link visual state |
+| `.nav-divider` | Orientation-aware separator |
+
+### Tabs (`.tabs`)
+
+A tab presentation pattern with underline, bordered, and pill variants.
+JavaScript or the host framework must switch `.tab-active` and
+`.tab-panel-active` and keep `aria-selected`/`aria-controls` synchronized.
+
+```html
+<div class="tabs">
+  <div class="tab-list" role="tablist" aria-label="Account sections">
+    <button class="tab-item tab-active" type="button" role="tab"
+            aria-selected="true" aria-controls="profile-panel">Profile</button>
+    <button class="tab-item" type="button" role="tab"
+            aria-selected="false" aria-controls="security-panel">Security</button>
+  </div>
+  <section id="profile-panel" class="tab-panel tab-panel-active" role="tabpanel">
+    Profile content
+  </section>
+  <section id="security-panel" class="tab-panel" role="tabpanel" hidden>
+    Security content
+  </section>
+</div>
+```
+
+| Class | Description |
+|-------|-------------|
+| `.tabs` | Vertical tabs wrapper |
+| `.tab-list` | Tab control row |
+| `.tab-item` | Individual tab control |
+| `.tab-active` | Active tab visual state |
+| `.tab-panel` | Hidden tab content panel |
+| `.tab-panel-active` | Visible tab content panel |
+| `.tabs-bordered` | Bordered tab variant |
+| `.tabs-pills` | Pill-shaped tab variant |
+
+---
+
 ## Responsive Behavior
 
 Component classes DO NOT generate responsive variants by default (unlike
@@ -261,6 +441,32 @@ utility classes). Components are designed to be responsive by composition:
 
 Size modifiers (`btn-sm`, `btn-lg`) can be used with responsive utility
 overrides when needed.
+
+The same composition keeps notification lists stacked on narrow screens and
+lets them use horizontal space on larger screens. Action bars use full-width
+controls on mobile before returning to intrinsic-width buttons from `md` up:
+
+```html
+<!-- Notification list: stack on mobile, distribute items from md up -->
+<div class="flex w-full flex-col gap-3 md:flex-row">
+  <div class="w-full p-4 rounded-md shadow-sm bg-success text-success-contrast md:flex-1">
+    Deploy succeeded
+  </div>
+  <div class="w-full p-4 rounded-md shadow-sm bg-warning text-warning-contrast md:flex-1">
+    Review required
+  </div>
+</div>
+
+<!-- Action bar: full-width buttons on mobile, intrinsic widths from md up -->
+<div class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+  <button class="w-full btn btn-primary md:w-auto">Confirm</button>
+  <button class="w-full btn btn-outline md:w-auto">Cancel</button>
+</div>
+```
+
+Use consumer JavaScript for interaction state such as opening a mobile
+navigation menu. The CSS utilities provide the responsive layout and the
+component classes provide presentation; neither layer owns application state.
 
 ---
 

@@ -53,7 +53,8 @@ Develop the core CSS framework.
 * CSS Reset
 * Base Styles
 * Utility Classes
-* Component Classes (Button, Card, Badge, Input, Alert)
+* Component Classes (Button, Card, Badge, Input, Alert, Table, Modal, Nav, Tabs)
+* Table Presentation States (sorting indicators, filter controls, pagination controls)
 * Layout Utilities (Display, Flex, Grid, Width/Height, Position, Overflow)
 * Spacing Utilities
 * Typography Utilities
