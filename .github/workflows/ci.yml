@@ -105,8 +105,10 @@ jobs:
           fi
           echo "✓ Within budget"
 
-      - name: Build roadmap-site
-        run: pnpm --dir apps/roadmap-site run build
+      # roadmap-site is not in the pnpm workspace (has its own lockfile)
+      # and requires a separate install. Skipped in CI — it's a demo/docs
+      # site, not a publishable package. Build it locally with:
+      # cd apps/roadmap-site && pnpm install && pnpm build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
