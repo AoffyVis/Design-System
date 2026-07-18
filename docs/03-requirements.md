@@ -39,7 +39,7 @@ A comprehensive set of utility classes for spacing, typography, color, layout, s
 
 ### Component Classes
 
-Pre-composed CSS classes (Button, Card, Badge, Input, Alert) that combine multiple Design Token references into single, reusable class names. Components follow a `{component}[-{variant}][-{modifier}]` naming convention and support color variants from the semantic color system.
+Pre-composed CSS classes (Button, Card, Badge, Input, Alert, Table, Modal, Nav, Tabs) that combine multiple Design Token references into single, reusable class names. Components follow a `{component}[-{variant}][-{modifier}]` naming convention and support semantic states and variants. Table classes include presentation states for sorting, filtering, and pagination; the framework does not provide data-management JavaScript.
 
 ### Responsive Behavior
 

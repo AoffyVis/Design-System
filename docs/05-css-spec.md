@@ -49,10 +49,22 @@ Base values are sourced from Design Tokens rather than magic numbers:
 The CSS follows the layered architecture defined in [ARCHITECTURE.md](../ARCHITECTURE.md):
 
 ```text
-Reset → Base → Utilities → Components (Optional) → Theme
+Reset → Base → Utilities → Components → Theme
 ```
 
 Each layer builds on top of the previous one. Utility classes override base styles by virtue of source order and equal specificity — no `!important` is used.
+
+### Component Layer API
+
+The Components layer is implemented in the generated `core.css` output and
+contains the pre-composed classes documented in
+[docs/spec/components.md](spec/components.md): Button, Card, Badge, Input,
+Alert, Table, Modal, Nav, and Tabs. Component classes are framework-agnostic
+CSS; they do not ship JavaScript behavior.
+
+The Table component includes presentation states for sortable headers,
+filter controls, and pagination controls. Applications must provide the
+sorting, filtering, pagination, focus management, and ARIA state updates.
 
 ---
 
@@ -411,7 +423,7 @@ The framework respects the `prefers-reduced-motion` media query:
 
 - [docs/spec/naming.md](spec/naming.md) — Full naming convention specification
 - [docs/spec/layout.md](spec/layout.md) — Layout utilities specification (Display, Flex, Grid, Position)
-- [docs/spec/components.md](spec/components.md) — Component Layer specification (Button, Card, Badge, Input, Alert)
+- [docs/spec/components.md](spec/components.md) — Component Layer specification (Button, Card, Badge, Input, Alert, Table, Modal, Nav, Tabs)
 - [docs/spec/README.md](spec/README.md) — Specification structure and status
 - [ARCHITECTURE.md](../ARCHITECTURE.md) — CSS Architecture layering
 

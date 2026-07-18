@@ -15,7 +15,7 @@ export default function DemoLayout({
     <>
       {/* Real, currently-built @company/tokens + @company/css-core output —
           see src/app/demo/design-system.css/route.ts. Only loaded on this
-          route; core.css's utility classes are @scope'd to [data-ds-live]
+          route; core.css selectors are rewritten to target [data-ds-live]
           elements so they can't collide with the rest of the site's
           Tailwind classes. Not a static CSS import on purpose: the target
           is a Route Handler that reads dist output at request time, which

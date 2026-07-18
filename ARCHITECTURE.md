@@ -269,7 +269,7 @@ Theme
 
 Utility classes must remain independent and predictable.
 
-Components are pre-composed classes (`.btn`, `.card`, `.badge`, `.input`, `.alert`) that combine multiple Design Token references into single, reusable class names. They sit between Utilities and Theme in the cascade.
+Components are pre-composed classes (`.btn`, `.card`, `.badge`, `.input`, `.alert`, `.table`, `.modal`, `.nav`, `.tabs`) that combine multiple Design Token references into single, reusable class names. Table sorting, filtering, and pagination selectors provide presentation states; application code owns the data behavior. Components sit between Utilities and Theme in the cascade.
 
 Avoid unnecessary selector specificity.
 

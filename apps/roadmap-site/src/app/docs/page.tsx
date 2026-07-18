@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, type KeyboardEvent } from "react";
+
+import AdvancedComponentsDocs from "@/components/AdvancedComponentsDocs";
 
 /* ─── Data ────────────────────────────────────────────────────────────── */
 
@@ -88,6 +90,16 @@ function Code({ children, onCopy }: { children: string; onCopy: (t: string) => v
   );
 }
 
+function handleKeyboardActivation(
+  event: KeyboardEvent<HTMLElement>,
+  action: () => void,
+): void {
+  if (event.key !== "Enter" && event.key !== " ") return;
+
+  event.preventDefault();
+  action();
+}
+
 /* ─── Page ────────────────────────────────────────────────────────────── */
 
 export default function DocsPage() {
@@ -142,7 +154,7 @@ export default function DocsPage() {
       <section className="border-b border-zinc-200 bg-gradient-to-br from-slate-50 to-zinc-100 dark:border-zinc-800 dark:from-zinc-900 dark:to-zinc-950">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-4xl">Design System Documentation</h1>
-          <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">87 tokens · 8 categories · 5 component classes · utility-first CSS framework. Everything below renders with the real generated output.</p>
+          <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">87 tokens · 8 categories · 9 component classes · utility-first CSS framework. Everything below renders with the real generated output.</p>
           <button onClick={() => applyTheme(activeTheme === "dark" ? "" : "dark")} className="mt-4 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200">
             {activeTheme === "dark" ? "☀️ Light Mode" : "🌓 Dark Mode"}
           </button>
@@ -641,7 +653,7 @@ export default function DocsPage() {
 
             {/* Card */}
             <h3 className="mt-10 mb-3 text-lg font-semibold text-zinc-800 dark:text-zinc-200">Card</h3>
-            <div className="max-w-sm" onClick={() => copy("card + card-header + card-body + card-footer")}>
+            <div className="max-w-sm">
               <div data-ds-live className="card">
                 <div data-ds-live className="card-header">Card Header</div>
                 <div data-ds-live className="card-body">Card body content goes here. Uses spacing-6 padding from tokens.</div>
@@ -662,7 +674,19 @@ export default function DocsPage() {
             <h3 className="mt-10 mb-3 text-lg font-semibold text-zinc-800 dark:text-zinc-200">Badge</h3>
             <div className="flex flex-wrap gap-2">
               {["primary","secondary","error","warning","success","info"].map(c => (
-                <span key={c} data-ds-live className={`badge badge-${c}`} onClick={() => copy(`badge badge-${c}`)} role="button" tabIndex={0}>{c}</span>
+                <span
+                  key={c}
+                  data-ds-live
+                  className={`badge badge-${c}`}
+                  onClick={() => copy(`badge badge-${c}`)}
+                  onKeyDown={(event) =>
+                    handleKeyboardActivation(event, () => copy(`badge badge-${c}`))
+                  }
+                  role="button"
+                  tabIndex={0}
+                >
+                  {c}
+                </span>
               ))}
             </div>
             <Code onCopy={copy}>{`<span class="badge badge-primary">Primary</span>
@@ -687,7 +711,17 @@ export default function DocsPage() {
                 { c: "warning", icon: "⚠️", msg: "This action cannot be undone." },
                 { c: "info", icon: "ℹ️", msg: "New version available." },
               ].map(a => (
-                <div key={a.c} data-ds-live className={`alert alert-${a.c}`} onClick={() => copy(`alert alert-${a.c}`)} role="button" tabIndex={0}>
+                <div
+                  key={a.c}
+                  data-ds-live
+                  className={`alert alert-${a.c}`}
+                  onClick={() => copy(`alert alert-${a.c}`)}
+                  onKeyDown={(event) =>
+                    handleKeyboardActivation(event, () => copy(`alert alert-${a.c}`))
+                  }
+                  role="button"
+                  tabIndex={0}
+                >
                   <span>{a.icon}</span><span>{a.msg}</span>
                 </div>
               ))}
@@ -700,6 +734,8 @@ export default function DocsPage() {
   <span>⛔</span>
   <span>Token validation failed.</span>
 </div>`}</Code>
+
+            <AdvancedComponentsDocs onCopy={copy} />
           </section>
 
 

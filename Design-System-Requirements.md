@@ -30,7 +30,8 @@ frameworks and languages from a single source of truth (Design Tokens).
 
 -   Reset/Base
 -   Utility classes
--   Component classes (Button, Card, Badge, Input, Alert)
+-   Component classes (Button, Card, Badge, Input, Alert, Table, Modal, Nav, Tabs)
+-   Table presentation states for sorting, filtering, and pagination (consumer logic remains application-owned)
 -   Responsive
 -   Dark mode
 -   Theme support
@@ -115,7 +116,7 @@ docs/
 |---|---|---|
 | `design-system-platform/` | Documentation scaffold + Link_Validator — เขียน docs 13 ไฟล์ + สร้าง script ตรวจลิงก์เสีย | ✅ Done |
 | `tokens-package/` | `packages/tokens` — Pipeline อ่าน JSON token → validate → resolve references → generate CSS/JSON/TS | ✅ Done |
-| `css-core-package/` | `packages/css-core` — อ่าน tokens.css แล้ว generate utility CSS (spacing, color, typography, radius, shadow, z-index, motion, layout, border, components) + responsive + dark mode + a11y + print | ✅ Done |
+| `css-core-package/` | `packages/css-core` — อ่าน tokens.css แล้ว generate utility CSS (spacing, color, typography, radius, shadow, z-index, motion, layout, border) + component CSS (button, card, badge, input, alert, table, modal, nav, tabs) + responsive + dark mode + a11y + print | ✅ Done |
 | `roadmap-homepage-site/` | `apps/roadmap-site` — เว็บ Next.js แสดง Homepage, Roadmap (parse จาก docs/ROADMAP.md), Demo (render CSS จริง), Docs (reference guide) | ✅ Done |
 | `generator-package/` | `packages/generator` + `packages/cli` — Unified orchestrator รวม pipeline ทั้งหมด + CLI interface (`ds-generate`) | ✅ Done |
 
@@ -149,7 +150,7 @@ docs/
 |---|---|
 | `design-tokens.md` | Token file format spec ละเอียด (JSON schema, types, references, validation) |
 | `naming.md` | Naming convention — token identifiers, CSS custom properties, utility classes |
-| `components.md` | Component Layer spec — .btn, .card, .badge, .input, .alert |
+| `components.md` | Component Layer spec — .btn, .card, .badge, .input, .alert, .table, .modal, .nav, .tabs; table sorting/filter/pagination presentation states |
 | `layout.md` | Layout utilities spec — flex, grid, display, container, gap, margin-auto |
 | `borders.md` | Border utilities spec — border-width, border-side, border-style, border-color |
 

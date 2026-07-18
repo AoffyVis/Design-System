@@ -30,7 +30,7 @@ Generates the shared CSS framework (reset, base, utilities, components, theme la
 pnpm build
 ```
 
-Expected implementation: consumes compiled tokens from `packages/tokens/dist/`, applies the CSS architecture layers (Reset → Base → Utilities → Components → Theme), and produces distributable CSS files in `dist/`.
+Expected implementation: consumes compiled tokens from `packages/tokens/dist/`, applies the CSS architecture layers (Reset → Base → Utilities → Components → Theme), and produces distributable CSS files in `dist/`. The Components layer includes Button, Card, Badge, Input, Alert, Table, Modal, Nav, and Tabs; table sorting, filtering, and pagination remain consumer-side behaviors.
 
 ### generator
 

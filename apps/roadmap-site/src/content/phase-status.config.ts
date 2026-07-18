@@ -12,7 +12,7 @@ import type { PhaseStatusConfig } from "@/lib/types";
  * configuration" section for the full rationale).
  *
  * Current values reflect the project's actual state: Foundation (tokens
- * pipeline, 84 tokens, all 8 categories) and CSS Core (utility framework,
+ * pipeline, 87 tokens, all 8 categories) and CSS Core (utility framework,
  * ~86KB layered CSS with responsive variants) are both implemented and
  * operational. Remaining phases are planned but not yet started.
  */

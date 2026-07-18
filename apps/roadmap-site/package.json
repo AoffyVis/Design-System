@@ -7,7 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "tsx scripts/check-hardcoded-roadmap-content.ts && next build --turbopack",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "NODE_PATH=./node_modules eslint",
     "test": "vitest run"
   },
   "dependencies": {

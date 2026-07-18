@@ -65,7 +65,7 @@ The specification aims to ensure:
 | borders.md | Border |
 | shadows.md | Shadow |
 | sizing.md | Width / Height |
-| components.md | Component Layer (Button, Card, Badge, Input, Alert) |
+| components.md | Component Layer (Button, Card, Badge, Input, Alert, Table, Modal, Nav, Tabs) |
 
 ---
 
