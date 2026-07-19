@@ -18,5 +18,6 @@ export function generateBase(tokens: TokenMap): string {
   font-family: ${fontFamily};
   font-size: ${fontSize};
   line-height: ${lineHeight};
+  color: var(--ds-color-surface-contrast);
 }`;
 }
