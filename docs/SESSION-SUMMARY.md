@@ -7158,3 +7158,24 @@ Updated `docs/TEST-REPORT.md` with full verbose results for all 8 test files.
 - `docs/SESSION-SUMMARY.md` (this entry)
 
 ---
+
+## Session — 2026-07-19 (Claude, found and fixed a second foundational bug — no base text color anywhere in the framework, light or dark)
+
+### What Was Accomplished
+
+- User asked to polish `DS-SYS-TEST_UI/html/index.html` into a more modern-looking page with real interactive flourishes, composed only from the framework's existing classes (no invented CSS). Added, all using existing `dist/core.css` primitives: a KPI stats row computed from the real `rows` dataset (not hardcoded), a toast-notification system reusing the real `.alert` component (wired to Save changes / Send invite / Delete confirm), `localStorage`-persisted theme with an anti-flash-of-wrong-theme inline script, a scroll-triggered shadow on the sticky nav, deterministic-color avatar initials in the table, a `/` keyboard shortcut to focus the filter (GitHub/Linear-style), and a ticking "last deploy: Xm ago" timestamp.
+- **While live-testing the new dark-mode toggle** (verifying the flourishes work in both themes), found a second foundational bug, same severity class as the `@layer` order issue from the previous session: `getComputedStyle` on the page's own `<h1>`/`<p>` in dark mode returned `rgb(0, 0, 0)` — pure black text on a `#121212` background, unreadable. Traced to `packages/css-core/lib/generators/base.ts`'s `generateBase()`: the `:root` rule it emits sets `font-family`/`font-size`/`line-height` but **never sets `color` at all**, and no other generator (light or dark theme) sets one either. Component classes like `.card` explicitly set their own `color: var(--ds-color-surface-contrast)`, which is why text *inside* a `.card`/`.badge`/etc. always looked fine — but any plain heading or paragraph placed directly in the page, with no such wrapper, silently inherited the browser's hardcoded default black. This "worked" by accident in light mode (black-on-white reads fine) and was completely invisible in dark mode.
+- **Fixed by Claude** (user explicitly asked to fix the root cause, not just patch the page): added `color: var(--ds-color-surface-contrast);` to the `:root` rule in `generateBase()` — the same token every component already uses, so it automatically resolves to `#1A1A1A` in light mode and `#E6E1E5` in dark mode with zero new special-casing.
+- **Verified**: `pnpm run build` (dist rebuilt, `@layer base`'s `:root` now includes the new `color` line), `pnpm run test` (75/75, no test asserted the old base-layer shape), `pnpm run lint` (clean). Live-verified with a temporary scratch HTML page (deleted after use) loading the freshly-built local `dist/`: a bare `<h1>`/`<p>` with no wrapping component now computes to `rgb(230, 225, 229)` (`#E6E1E5`) on a `rgb(18, 18, 18)` background with `data-theme="dark"` set, and `rgb(26, 26, 26)` (`#1A1A1A`) on white with no `data-theme` attribute — both exactly match the token values in `dist/tokens.css` and `dist/themes/dark.css`.
+- The page-level workaround from the earlier turn (`text-surface-contrast` added to `DS-SYS-TEST_UI/html/index.html`'s `<body>`) was left in place rather than reverted — that project still loads CSS from the jsdelivr CDN at `@master`, which doesn't have this fix yet (only committed locally on `features/dev` at time of writing), so removing the workaround now would re-break that page's dark mode until a PR merges this and the CDN cache is purged, same two-step process as the `@layer` fix.
+
+### Files Modified
+
+- `packages/css-core/lib/generators/base.ts` (added `color: var(--ds-color-surface-contrast);` to the generated `:root` rule)
+- `dist/core.css` + `dist/tokens.css` + `dist/themes/*.css` (regenerated via `pnpm run build`)
+- `/Users/jirawaka/tltprojects/KIRO-POC/DS-SYS-TEST_UI/html/index.html` (external project — added the KPI/toast/theme-persistence/avatar/keyboard-shortcut flourishes; `text-surface-contrast` on `<body>` kept as a CDN-lag workaround, see above)
+- `/Users/jirawaka/tltprojects/KIRO-POC/DS-SYS-TEST_UI/html/showcase.js` (external project — toast system, stat computation, avatar rendering, scroll shadow, keyboard shortcut, theme persistence)
+- `.claude/launch.json` (added, then removed after use, a temporary static-server entry for this session's verification)
+- `docs/SESSION-SUMMARY.md` (this entry)
+
+---
