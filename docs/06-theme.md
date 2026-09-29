@@ -99,6 +99,7 @@ packages/tokens/src/
 - Dark overrides only color-sensitive tokens (palette, shadows, overlays). Non-color tokens (typography, spacing, radius, breakpoints, z-index, motion) remain shared.
 - Both themes are generated from the same build step. Neither is a "patch" on the other — both are complete Custom Property sets for their respective tokens. Tokens not redefined in the dark file inherit from `:root`.
 - The `prefers-color-scheme` media query can optionally be used as an automatic default (see Runtime Activation below).
+- Semantic colors from the designer's Figma export (`text.primary`, `bg.primary`, `surface.card`, `border.light`, `status.danger`, …) live in `packages/tokens/src/semantic-color.json` (light) and `src/themes/dark.json` (dark). They are generated, not hand-edited: put the export in `DesignerSpec/SemanticuiToken/` and run `pnpm --filter @company/tokens run import:figma`. Figma's kebab-case names are split into `group.variant` (`text-on-color` → `--ds-color-text-on-color`); `text-value` becomes `text.valueText` because `value` is reserved by the token parser.
 
 ---
 

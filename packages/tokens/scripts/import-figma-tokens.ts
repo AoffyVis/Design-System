@@ -1,0 +1,103 @@
+/**
+ * Imports the designer's Figma-exported DTCG color tokens (Light/Dark) as
+ * semantic color tokens.
+ *
+ *   pnpm --filter @company/tokens run import:figma [dir]
+ *
+ * - Light.tokens.json → src/semantic-color.json (base, `:root`)
+ * - Dark.tokens.json  → the same color keys merged into src/themes/dark.json
+ *   (`[data-theme="dark"]`); existing hand-written keys are preserved.
+ *
+ * Only the `color` group is imported: spacing/radius/typography in the Figma
+ * export use a different naming scale from src/spacing.json etc. and are
+ * identical across Light and Dark, so they are not theme material.
+ * Idempotent — re-run whenever the designer re-exports.
+ */
+import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const defaultDir = resolve(packageRoot, '../../DesignerSpec/SemanticuiToken');
+const srcDir = resolve(packageRoot, 'src');
+
+type Leaf = { value: string; type: 'color' };
+type ColorGroup = Record<string, Record<string, Leaf>>;
+
+interface FigmaColor {
+  hex: string;
+  alpha?: number;
+  components: number[];
+}
+
+function toValue(c: FigmaColor): string {
+  const alpha = c.alpha ?? 1;
+  if (alpha >= 1) return c.hex.toUpperCase();
+  const [r, g, b] = c.components.map((x) => Math.round(x * 255));
+  return `rgba(${r}, ${g}, ${b}, ${Number(alpha.toFixed(3))})`;
+}
+
+/**
+ * The token validator only allows alphanumeric segments, so Figma's flat
+ * kebab-case names are split at the first hyphen into group + variant, the
+ * rest camelCased: `text-on-color` → `text.onColor`, `icon-brand-light` →
+ * `icon.brandLight`.
+ */
+export function toPath(name: string): [string, string] {
+  const [group, ...rest] = name.split('-');
+  if (rest.length === 0) throw new Error(`color.${name} has no group prefix`);
+  let variant = rest.map((w, i) => (i === 0 ? w : w[0].toUpperCase() + w.slice(1))).join('');
+  // `value`/`type` are the parser's leaf markers, so a variant with either
+  // name would turn its group into a malformed leaf: `text-value` → `text.valueText`.
+  if (variant === 'value' || variant === 'type') {
+    variant += group[0].toUpperCase() + group.slice(1);
+  }
+  return [group, variant];
+}
+
+export function readColors(file: string): ColorGroup {
+  const json = JSON.parse(readFileSync(file, 'utf-8')) as {
+    color?: Record<string, { $type?: string; $value?: FigmaColor }>;
+  };
+  if (!json.color) throw new Error(`${file}: missing "color" group`);
+  const out: ColorGroup = {};
+  for (const [name, token] of Object.entries(json.color)) {
+    if (token.$type !== 'color' || !token.$value?.hex) {
+      throw new Error(`${file}: color.${name} is not a color token with a hex value`);
+    }
+    const [group, variant] = toPath(name);
+    (out[group] ??= {})[variant] = { value: toValue(token.$value), type: 'color' };
+  }
+  return out;
+}
+
+function writeJson(file: string, data: unknown): void {
+  writeFileSync(file, JSON.stringify(data, null, 2) + '\n', 'utf-8');
+}
+
+const dir = process.argv[2] ? resolve(process.argv[2]) : defaultDir;
+const light = readColors(resolve(dir, 'Light.tokens.json'));
+const dark = readColors(resolve(dir, 'Dark.tokens.json'));
+
+const flat = (g: ColorGroup) => Object.entries(g).flatMap(([a, v]) => Object.keys(v).map((b) => `${a}.${b}`));
+const lightKeys = flat(light);
+const darkKeys = new Set(flat(dark));
+const missing = lightKeys.filter((k) => !darkKeys.has(k));
+const extra = [...darkKeys].filter((k) => !lightKeys.includes(k));
+if (missing.length || extra.length) {
+  throw new Error(
+    `Light/Dark color sets differ. Missing in Dark: [${missing}]; only in Dark: [${extra}]`,
+  );
+}
+
+writeJson(resolve(srcDir, 'semantic-color.json'), { color: light });
+
+const darkPath = resolve(srcDir, 'themes/dark.json');
+const darkTheme = JSON.parse(readFileSync(darkPath, 'utf-8'));
+darkTheme.color ??= {};
+for (const [group, variants] of Object.entries(dark)) {
+  darkTheme.color[group] = { ...darkTheme.color[group], ...variants };
+}
+writeJson(darkPath, darkTheme);
+
+console.log(`✓ Imported ${lightKeys.length} semantic colors (light → src/semantic-color.json, dark → src/themes/dark.json)`);

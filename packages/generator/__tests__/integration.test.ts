@@ -28,8 +28,8 @@ describe('generator integration', () => {
     rmSync(outDir, { recursive: true, force: true });
   });
 
-  it('resolves all 87 tokens', () => {
-    expect(result.tokenCount).toBe(87);
+  it('resolves all 120 tokens', () => {
+    expect(result.tokenCount).toBe(120);
   });
 
   it('writes one file per registered transform, plus one per theme', () => {

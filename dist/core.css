@@ -702,12 +702,22 @@ button, input, textarea, select {
 .mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
 .my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
 .gap-8 { gap: var(--ds-spacing-8); }
+.text-bg { color: var(--ds-color-bg-main); }
+.bg-bg { background-color: var(--ds-color-bg-main); }
 .text-border { color: var(--ds-color-border-main); }
 .bg-border { background-color: var(--ds-color-border-main); }
+.text-border-light { color: var(--ds-color-border-light); }
+.bg-border-light { background-color: var(--ds-color-border-light); }
 .text-error { color: var(--ds-color-error-main); }
 .bg-error { background-color: var(--ds-color-error-main); }
 .text-error-contrast { color: var(--ds-color-error-contrast); }
 .bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+.text-icon { color: var(--ds-color-icon-main); }
+.bg-icon { background-color: var(--ds-color-icon-main); }
+.text-icon-brand { color: var(--ds-color-icon-brand-main); }
+.bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+.text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+.bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
 .text-info { color: var(--ds-color-info-main); }
 .bg-info { background-color: var(--ds-color-info-main); }
 .text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -728,6 +738,8 @@ button, input, textarea, select {
 .bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
 .text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
 .bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+.text-status { color: var(--ds-color-status-main); }
+.bg-status { background-color: var(--ds-color-status-main); }
 .text-success { color: var(--ds-color-success-main); }
 .bg-success { background-color: var(--ds-color-success-main); }
 .text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -736,6 +748,12 @@ button, input, textarea, select {
 .bg-surface { background-color: var(--ds-color-surface-main); }
 .text-surface-contrast { color: var(--ds-color-surface-contrast); }
 .bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+.text-text { color: var(--ds-color-text-main); }
+.bg-text { background-color: var(--ds-color-text-main); }
+.text-text-on { color: var(--ds-color-text-on-main); }
+.bg-text-on { background-color: var(--ds-color-text-on-main); }
+.text-text-value { color: var(--ds-color-text-value-main); }
+.bg-text-value { background-color: var(--ds-color-text-value-main); }
 .text-warning { color: var(--ds-color-warning-main); }
 .bg-warning { background-color: var(--ds-color-warning-main); }
 .text-warning-contrast { color: var(--ds-color-warning-contrast); }
@@ -1131,12 +1149,22 @@ button, input, textarea, select {
   .\32xl\:mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
   .\32xl\:my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
   .\32xl\:gap-8 { gap: var(--ds-spacing-8); }
+  .\32xl\:text-bg { color: var(--ds-color-bg-main); }
+  .\32xl\:bg-bg { background-color: var(--ds-color-bg-main); }
   .\32xl\:text-border { color: var(--ds-color-border-main); }
   .\32xl\:bg-border { background-color: var(--ds-color-border-main); }
+  .\32xl\:text-border-light { color: var(--ds-color-border-light); }
+  .\32xl\:bg-border-light { background-color: var(--ds-color-border-light); }
   .\32xl\:text-error { color: var(--ds-color-error-main); }
   .\32xl\:bg-error { background-color: var(--ds-color-error-main); }
   .\32xl\:text-error-contrast { color: var(--ds-color-error-contrast); }
   .\32xl\:bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+  .\32xl\:text-icon { color: var(--ds-color-icon-main); }
+  .\32xl\:bg-icon { background-color: var(--ds-color-icon-main); }
+  .\32xl\:text-icon-brand { color: var(--ds-color-icon-brand-main); }
+  .\32xl\:bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+  .\32xl\:text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+  .\32xl\:bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
   .\32xl\:text-info { color: var(--ds-color-info-main); }
   .\32xl\:bg-info { background-color: var(--ds-color-info-main); }
   .\32xl\:text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -1157,6 +1185,8 @@ button, input, textarea, select {
   .\32xl\:bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
   .\32xl\:text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
   .\32xl\:bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+  .\32xl\:text-status { color: var(--ds-color-status-main); }
+  .\32xl\:bg-status { background-color: var(--ds-color-status-main); }
   .\32xl\:text-success { color: var(--ds-color-success-main); }
   .\32xl\:bg-success { background-color: var(--ds-color-success-main); }
   .\32xl\:text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -1165,6 +1195,12 @@ button, input, textarea, select {
   .\32xl\:bg-surface { background-color: var(--ds-color-surface-main); }
   .\32xl\:text-surface-contrast { color: var(--ds-color-surface-contrast); }
   .\32xl\:bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+  .\32xl\:text-text { color: var(--ds-color-text-main); }
+  .\32xl\:bg-text { background-color: var(--ds-color-text-main); }
+  .\32xl\:text-text-on { color: var(--ds-color-text-on-main); }
+  .\32xl\:bg-text-on { background-color: var(--ds-color-text-on-main); }
+  .\32xl\:text-text-value { color: var(--ds-color-text-value-main); }
+  .\32xl\:bg-text-value { background-color: var(--ds-color-text-value-main); }
   .\32xl\:text-warning { color: var(--ds-color-warning-main); }
   .\32xl\:bg-warning { background-color: var(--ds-color-warning-main); }
   .\32xl\:text-warning-contrast { color: var(--ds-color-warning-contrast); }
@@ -1553,12 +1589,22 @@ button, input, textarea, select {
   .lg\:mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
   .lg\:my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
   .lg\:gap-8 { gap: var(--ds-spacing-8); }
+  .lg\:text-bg { color: var(--ds-color-bg-main); }
+  .lg\:bg-bg { background-color: var(--ds-color-bg-main); }
   .lg\:text-border { color: var(--ds-color-border-main); }
   .lg\:bg-border { background-color: var(--ds-color-border-main); }
+  .lg\:text-border-light { color: var(--ds-color-border-light); }
+  .lg\:bg-border-light { background-color: var(--ds-color-border-light); }
   .lg\:text-error { color: var(--ds-color-error-main); }
   .lg\:bg-error { background-color: var(--ds-color-error-main); }
   .lg\:text-error-contrast { color: var(--ds-color-error-contrast); }
   .lg\:bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+  .lg\:text-icon { color: var(--ds-color-icon-main); }
+  .lg\:bg-icon { background-color: var(--ds-color-icon-main); }
+  .lg\:text-icon-brand { color: var(--ds-color-icon-brand-main); }
+  .lg\:bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+  .lg\:text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+  .lg\:bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
   .lg\:text-info { color: var(--ds-color-info-main); }
   .lg\:bg-info { background-color: var(--ds-color-info-main); }
   .lg\:text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -1579,6 +1625,8 @@ button, input, textarea, select {
   .lg\:bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
   .lg\:text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
   .lg\:bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+  .lg\:text-status { color: var(--ds-color-status-main); }
+  .lg\:bg-status { background-color: var(--ds-color-status-main); }
   .lg\:text-success { color: var(--ds-color-success-main); }
   .lg\:bg-success { background-color: var(--ds-color-success-main); }
   .lg\:text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -1587,6 +1635,12 @@ button, input, textarea, select {
   .lg\:bg-surface { background-color: var(--ds-color-surface-main); }
   .lg\:text-surface-contrast { color: var(--ds-color-surface-contrast); }
   .lg\:bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+  .lg\:text-text { color: var(--ds-color-text-main); }
+  .lg\:bg-text { background-color: var(--ds-color-text-main); }
+  .lg\:text-text-on { color: var(--ds-color-text-on-main); }
+  .lg\:bg-text-on { background-color: var(--ds-color-text-on-main); }
+  .lg\:text-text-value { color: var(--ds-color-text-value-main); }
+  .lg\:bg-text-value { background-color: var(--ds-color-text-value-main); }
   .lg\:text-warning { color: var(--ds-color-warning-main); }
   .lg\:bg-warning { background-color: var(--ds-color-warning-main); }
   .lg\:text-warning-contrast { color: var(--ds-color-warning-contrast); }
@@ -1975,12 +2029,22 @@ button, input, textarea, select {
   .md\:mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
   .md\:my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
   .md\:gap-8 { gap: var(--ds-spacing-8); }
+  .md\:text-bg { color: var(--ds-color-bg-main); }
+  .md\:bg-bg { background-color: var(--ds-color-bg-main); }
   .md\:text-border { color: var(--ds-color-border-main); }
   .md\:bg-border { background-color: var(--ds-color-border-main); }
+  .md\:text-border-light { color: var(--ds-color-border-light); }
+  .md\:bg-border-light { background-color: var(--ds-color-border-light); }
   .md\:text-error { color: var(--ds-color-error-main); }
   .md\:bg-error { background-color: var(--ds-color-error-main); }
   .md\:text-error-contrast { color: var(--ds-color-error-contrast); }
   .md\:bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+  .md\:text-icon { color: var(--ds-color-icon-main); }
+  .md\:bg-icon { background-color: var(--ds-color-icon-main); }
+  .md\:text-icon-brand { color: var(--ds-color-icon-brand-main); }
+  .md\:bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+  .md\:text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+  .md\:bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
   .md\:text-info { color: var(--ds-color-info-main); }
   .md\:bg-info { background-color: var(--ds-color-info-main); }
   .md\:text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -2001,6 +2065,8 @@ button, input, textarea, select {
   .md\:bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
   .md\:text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
   .md\:bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+  .md\:text-status { color: var(--ds-color-status-main); }
+  .md\:bg-status { background-color: var(--ds-color-status-main); }
   .md\:text-success { color: var(--ds-color-success-main); }
   .md\:bg-success { background-color: var(--ds-color-success-main); }
   .md\:text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -2009,6 +2075,12 @@ button, input, textarea, select {
   .md\:bg-surface { background-color: var(--ds-color-surface-main); }
   .md\:text-surface-contrast { color: var(--ds-color-surface-contrast); }
   .md\:bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+  .md\:text-text { color: var(--ds-color-text-main); }
+  .md\:bg-text { background-color: var(--ds-color-text-main); }
+  .md\:text-text-on { color: var(--ds-color-text-on-main); }
+  .md\:bg-text-on { background-color: var(--ds-color-text-on-main); }
+  .md\:text-text-value { color: var(--ds-color-text-value-main); }
+  .md\:bg-text-value { background-color: var(--ds-color-text-value-main); }
   .md\:text-warning { color: var(--ds-color-warning-main); }
   .md\:bg-warning { background-color: var(--ds-color-warning-main); }
   .md\:text-warning-contrast { color: var(--ds-color-warning-contrast); }
@@ -2397,12 +2469,22 @@ button, input, textarea, select {
   .sm\:mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
   .sm\:my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
   .sm\:gap-8 { gap: var(--ds-spacing-8); }
+  .sm\:text-bg { color: var(--ds-color-bg-main); }
+  .sm\:bg-bg { background-color: var(--ds-color-bg-main); }
   .sm\:text-border { color: var(--ds-color-border-main); }
   .sm\:bg-border { background-color: var(--ds-color-border-main); }
+  .sm\:text-border-light { color: var(--ds-color-border-light); }
+  .sm\:bg-border-light { background-color: var(--ds-color-border-light); }
   .sm\:text-error { color: var(--ds-color-error-main); }
   .sm\:bg-error { background-color: var(--ds-color-error-main); }
   .sm\:text-error-contrast { color: var(--ds-color-error-contrast); }
   .sm\:bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+  .sm\:text-icon { color: var(--ds-color-icon-main); }
+  .sm\:bg-icon { background-color: var(--ds-color-icon-main); }
+  .sm\:text-icon-brand { color: var(--ds-color-icon-brand-main); }
+  .sm\:bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+  .sm\:text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+  .sm\:bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
   .sm\:text-info { color: var(--ds-color-info-main); }
   .sm\:bg-info { background-color: var(--ds-color-info-main); }
   .sm\:text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -2423,6 +2505,8 @@ button, input, textarea, select {
   .sm\:bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
   .sm\:text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
   .sm\:bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+  .sm\:text-status { color: var(--ds-color-status-main); }
+  .sm\:bg-status { background-color: var(--ds-color-status-main); }
   .sm\:text-success { color: var(--ds-color-success-main); }
   .sm\:bg-success { background-color: var(--ds-color-success-main); }
   .sm\:text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -2431,6 +2515,12 @@ button, input, textarea, select {
   .sm\:bg-surface { background-color: var(--ds-color-surface-main); }
   .sm\:text-surface-contrast { color: var(--ds-color-surface-contrast); }
   .sm\:bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+  .sm\:text-text { color: var(--ds-color-text-main); }
+  .sm\:bg-text { background-color: var(--ds-color-text-main); }
+  .sm\:text-text-on { color: var(--ds-color-text-on-main); }
+  .sm\:bg-text-on { background-color: var(--ds-color-text-on-main); }
+  .sm\:text-text-value { color: var(--ds-color-text-value-main); }
+  .sm\:bg-text-value { background-color: var(--ds-color-text-value-main); }
   .sm\:text-warning { color: var(--ds-color-warning-main); }
   .sm\:bg-warning { background-color: var(--ds-color-warning-main); }
   .sm\:text-warning-contrast { color: var(--ds-color-warning-contrast); }
@@ -2819,12 +2909,22 @@ button, input, textarea, select {
   .xl\:mx-8 { margin-left: var(--ds-spacing-8); margin-right: var(--ds-spacing-8); }
   .xl\:my-8 { margin-top: var(--ds-spacing-8); margin-bottom: var(--ds-spacing-8); }
   .xl\:gap-8 { gap: var(--ds-spacing-8); }
+  .xl\:text-bg { color: var(--ds-color-bg-main); }
+  .xl\:bg-bg { background-color: var(--ds-color-bg-main); }
   .xl\:text-border { color: var(--ds-color-border-main); }
   .xl\:bg-border { background-color: var(--ds-color-border-main); }
+  .xl\:text-border-light { color: var(--ds-color-border-light); }
+  .xl\:bg-border-light { background-color: var(--ds-color-border-light); }
   .xl\:text-error { color: var(--ds-color-error-main); }
   .xl\:bg-error { background-color: var(--ds-color-error-main); }
   .xl\:text-error-contrast { color: var(--ds-color-error-contrast); }
   .xl\:bg-error-contrast { background-color: var(--ds-color-error-contrast); }
+  .xl\:text-icon { color: var(--ds-color-icon-main); }
+  .xl\:bg-icon { background-color: var(--ds-color-icon-main); }
+  .xl\:text-icon-brand { color: var(--ds-color-icon-brand-main); }
+  .xl\:bg-icon-brand { background-color: var(--ds-color-icon-brand-main); }
+  .xl\:text-icon-brand-light { color: var(--ds-color-icon-brand-light); }
+  .xl\:bg-icon-brand-light { background-color: var(--ds-color-icon-brand-light); }
   .xl\:text-info { color: var(--ds-color-info-main); }
   .xl\:bg-info { background-color: var(--ds-color-info-main); }
   .xl\:text-info-contrast { color: var(--ds-color-info-contrast); }
@@ -2845,6 +2945,8 @@ button, input, textarea, select {
   .xl\:bg-secondary-dark { background-color: var(--ds-color-secondary-dark); }
   .xl\:text-secondary-contrast { color: var(--ds-color-secondary-contrast); }
   .xl\:bg-secondary-contrast { background-color: var(--ds-color-secondary-contrast); }
+  .xl\:text-status { color: var(--ds-color-status-main); }
+  .xl\:bg-status { background-color: var(--ds-color-status-main); }
   .xl\:text-success { color: var(--ds-color-success-main); }
   .xl\:bg-success { background-color: var(--ds-color-success-main); }
   .xl\:text-success-contrast { color: var(--ds-color-success-contrast); }
@@ -2853,6 +2955,12 @@ button, input, textarea, select {
   .xl\:bg-surface { background-color: var(--ds-color-surface-main); }
   .xl\:text-surface-contrast { color: var(--ds-color-surface-contrast); }
   .xl\:bg-surface-contrast { background-color: var(--ds-color-surface-contrast); }
+  .xl\:text-text { color: var(--ds-color-text-main); }
+  .xl\:bg-text { background-color: var(--ds-color-text-main); }
+  .xl\:text-text-on { color: var(--ds-color-text-on-main); }
+  .xl\:bg-text-on { background-color: var(--ds-color-text-on-main); }
+  .xl\:text-text-value { color: var(--ds-color-text-value-main); }
+  .xl\:bg-text-value { background-color: var(--ds-color-text-value-main); }
   .xl\:text-warning { color: var(--ds-color-warning-main); }
   .xl\:bg-warning { background-color: var(--ds-color-warning-main); }
   .xl\:text-warning-contrast { color: var(--ds-color-warning-contrast); }

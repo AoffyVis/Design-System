@@ -7,12 +7,26 @@ export interface DesignTokens {
     xl: string;
   };
   color: {
+    bg: {
+      primary: string;
+      secondary: string;
+    };
     border: {
+      active: string;
+      danger: string;
+      default: string;
+      light: string;
       main: string;
+      medium: string;
+      table: string;
     };
     error: {
       contrast: string;
       main: string;
+    };
+    icon: {
+      brand: string;
+      brandLight: string;
     };
     info: {
       contrast: string;
@@ -30,13 +44,40 @@ export interface DesignTokens {
       light: string;
       main: string;
     };
+    status: {
+      alert: string;
+      danger: string;
+      success: string;
+      warning: string;
+    };
     success: {
       contrast: string;
       main: string;
     };
     surface: {
+      card: string;
       contrast: string;
+      danger: string;
+      highlight: string;
+      input: string;
       main: string;
+      success: string;
+    };
+    text: {
+      accent: string;
+      body: string;
+      brand: string;
+      danger: string;
+      heading: string;
+      label: string;
+      link: string;
+      muted: string;
+      onColor: string;
+      overlay: string;
+      placeholder: string;
+      primary: string;
+      secondary: string;
+      valueText: string;
     };
     warning: {
       contrast: string;

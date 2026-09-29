@@ -1,7 +1,12 @@
 import Link from "next/link";
 import SupportedPlatformsList from "@/components/SupportedPlatformsList";
 import { homepageContent } from "@/content/homepage-content";
-import { ArrowRightIcon, GridIcon, PackageIcon, TargetIcon } from "@/components/icons";
+import {
+  ArrowRightIcon,
+  GridIcon,
+  PackageIcon,
+  TargetIcon,
+} from "@/components/icons";
 
 /**
  * Homepage (Requirement 2). Server Component that renders the platform
@@ -62,8 +67,8 @@ export default function Home() {
               Single Source of Truth
             </h2>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              Every visual value ships from one Design Token pipeline, so
-              every application looks and feels the same by construction.
+              Every visual value ships from one Design Token pipeline, so every
+              application looks and feels the same by construction.
             </p>
           </div>
 
@@ -75,8 +80,8 @@ export default function Home() {
               Framework Agnostic
             </h2>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              Generated CSS, tokens, and types work the same way across
-              every supported platform below.
+              Generated CSS, tokens, and types work the same way across every
+              supported platform below.
             </p>
           </div>
         </div>

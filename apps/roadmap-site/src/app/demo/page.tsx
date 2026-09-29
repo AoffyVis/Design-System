@@ -12,6 +12,11 @@ interface ColorToken {
   variable: string;
 }
 
+interface SemanticColorGroup {
+  group: string;
+  tokens: string[];
+}
+
 interface SpacingToken {
   key: string;
   variable: string;
@@ -53,6 +58,76 @@ const COLOR_TOKENS: ColorToken[] = [
   { name: "Warning", slug: "warning", variable: "--ds-color-warning-main" },
   { name: "Success", slug: "success", variable: "--ds-color-success-main" },
   { name: "Info", slug: "info", variable: "--ds-color-info-main" },
+];
+
+// Semantic colors imported from the designer's Figma export
+// (packages/tokens/src/semantic-color.json). Light values live on :root and
+// dark values under [data-theme="dark"], so the swatches below re-color when
+// the page's theme toggle flips.
+const SEMANTIC_COLOR_GROUPS: SemanticColorGroup[] = [
+  {
+    group: "text",
+    tokens: [
+      "--ds-color-text-primary",
+      "--ds-color-text-secondary",
+      "--ds-color-text-label",
+      "--ds-color-text-value-text",
+      "--ds-color-text-link",
+      "--ds-color-text-accent",
+      "--ds-color-text-on-color",
+      "--ds-color-text-heading",
+      "--ds-color-text-body",
+      "--ds-color-text-muted",
+      "--ds-color-text-brand",
+      "--ds-color-text-danger",
+      "--ds-color-text-placeholder",
+      "--ds-color-text-overlay",
+    ],
+  },
+  {
+    group: "bg",
+    tokens: [
+      "--ds-color-bg-primary",
+      "--ds-color-bg-secondary",
+    ],
+  },
+  {
+    group: "border",
+    tokens: [
+      "--ds-color-border-default",
+      "--ds-color-border-light",
+      "--ds-color-border-medium",
+      "--ds-color-border-table",
+      "--ds-color-border-danger",
+      "--ds-color-border-active",
+    ],
+  },
+  {
+    group: "surface",
+    tokens: [
+      "--ds-color-surface-card",
+      "--ds-color-surface-input",
+      "--ds-color-surface-highlight",
+      "--ds-color-surface-success",
+      "--ds-color-surface-danger",
+    ],
+  },
+  {
+    group: "status",
+    tokens: [
+      "--ds-color-status-danger",
+      "--ds-color-status-alert",
+      "--ds-color-status-success",
+      "--ds-color-status-warning",
+    ],
+  },
+  {
+    group: "icon",
+    tokens: [
+      "--ds-color-icon-brand",
+      "--ds-color-icon-brand-light",
+    ],
+  },
 ];
 
 const SPACING_TOKENS: SpacingToken[] = [
@@ -393,6 +468,39 @@ export default function DemoPage() {
               </button>
             ))}
           </div>
+
+          {/* Semantic Colors */}
+          <h3 className="mb-1 mt-8 text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+            Semantic Colors
+          </h3>
+          <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
+            Designer tokens — switch the page theme to see the light and dark values
+          </p>
+          {SEMANTIC_COLOR_GROUPS.map(({ group, tokens }) => (
+            <div key={group} className="mb-5">
+              <h4 className="mb-2 text-sm font-semibold capitalize text-zinc-600 dark:text-zinc-400">
+                {group}
+              </h4>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                {tokens.map((variable) => (
+                  <button
+                    key={variable}
+                    onClick={() => copyToken(variable)}
+                    className="text-left transition-transform hover:scale-105"
+                    aria-label={`Copy ${variable}`}
+                  >
+                    <div
+                      className="h-14 rounded-lg border border-zinc-300 dark:border-zinc-600"
+                      style={{ backgroundColor: `var(${variable})` }}
+                    />
+                    <code className="mt-1 block break-all text-[10px] text-zinc-600 dark:text-zinc-400">
+                      {variable.replace("--ds-color-", "")}
+                    </code>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
 
           {/* Spacing */}
           <h3 className="mb-3 mt-8 text-lg font-semibold text-zinc-800 dark:text-zinc-200">

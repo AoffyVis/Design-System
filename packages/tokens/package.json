@@ -12,7 +12,8 @@
   "scripts": {
     "build": "tsx lib/build.ts",
     "prepublishOnly": "pnpm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "import:figma": "tsx scripts/import-figma-tokens.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

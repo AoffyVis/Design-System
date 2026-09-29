@@ -1,0 +1,148 @@
+{
+  "color": {
+    "text": {
+      "primary": {
+        "value": "#12171C",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "#6A7C8D",
+        "type": "color"
+      },
+      "label": {
+        "value": "#3C4650",
+        "type": "color"
+      },
+      "valueText": {
+        "value": "#19191A",
+        "type": "color"
+      },
+      "link": {
+        "value": "#003FFF",
+        "type": "color"
+      },
+      "accent": {
+        "value": "#2F80ED",
+        "type": "color"
+      },
+      "onColor": {
+        "value": "#FFFFFF",
+        "type": "color"
+      },
+      "heading": {
+        "value": "#3C4650",
+        "type": "color"
+      },
+      "body": {
+        "value": "#19191A",
+        "type": "color"
+      },
+      "muted": {
+        "value": "#556574",
+        "type": "color"
+      },
+      "brand": {
+        "value": "#426DEF",
+        "type": "color"
+      },
+      "danger": {
+        "value": "#FF0020",
+        "type": "color"
+      },
+      "placeholder": {
+        "value": "#C4C4C4",
+        "type": "color"
+      },
+      "overlay": {
+        "value": "#6C6C6C",
+        "type": "color"
+      }
+    },
+    "bg": {
+      "primary": {
+        "value": "#FFFFFF",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "#F5F5F7",
+        "type": "color"
+      }
+    },
+    "border": {
+      "default": {
+        "value": "rgba(0, 0, 0, 0.1)",
+        "type": "color"
+      },
+      "light": {
+        "value": "#DDE0E8",
+        "type": "color"
+      },
+      "medium": {
+        "value": "#B2BCC7",
+        "type": "color"
+      },
+      "table": {
+        "value": "#F0F0F0",
+        "type": "color"
+      },
+      "danger": {
+        "value": "#FF5D71",
+        "type": "color"
+      },
+      "active": {
+        "value": "#159950",
+        "type": "color"
+      }
+    },
+    "surface": {
+      "card": {
+        "value": "#FFFFFF",
+        "type": "color"
+      },
+      "input": {
+        "value": "#F0F0F0",
+        "type": "color"
+      },
+      "highlight": {
+        "value": "#DCEDFD",
+        "type": "color"
+      },
+      "success": {
+        "value": "#C2F0D3",
+        "type": "color"
+      },
+      "danger": {
+        "value": "#FFDEE2",
+        "type": "color"
+      }
+    },
+    "status": {
+      "danger": {
+        "value": "#F93C54",
+        "type": "color"
+      },
+      "alert": {
+        "value": "#E40521",
+        "type": "color"
+      },
+      "success": {
+        "value": "#1FAA5D",
+        "type": "color"
+      },
+      "warning": {
+        "value": "#FF9A52",
+        "type": "color"
+      }
+    },
+    "icon": {
+      "brand": {
+        "value": "#518FF5",
+        "type": "color"
+      },
+      "brandLight": {
+        "value": "#A6C5FA",
+        "type": "color"
+      }
+    }
+  }
+}
