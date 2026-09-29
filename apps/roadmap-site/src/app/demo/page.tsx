@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 
 import AdvancedComponentsDemo from "@/components/AdvancedComponentsDemo";
+import { SEMANTIC_COLOR_GROUPS } from "@/content/semantic-colors";
 
 // --- Types ---
 
@@ -10,11 +11,6 @@ interface ColorToken {
   name: string;
   slug: string;
   variable: string;
-}
-
-interface SemanticColorGroup {
-  group: string;
-  tokens: string[];
 }
 
 interface SpacingToken {
@@ -58,76 +54,6 @@ const COLOR_TOKENS: ColorToken[] = [
   { name: "Warning", slug: "warning", variable: "--ds-color-warning-main" },
   { name: "Success", slug: "success", variable: "--ds-color-success-main" },
   { name: "Info", slug: "info", variable: "--ds-color-info-main" },
-];
-
-// Semantic colors imported from the designer's Figma export
-// (packages/tokens/src/semantic-color.json). Light values live on :root and
-// dark values under [data-theme="dark"], so the swatches below re-color when
-// the page's theme toggle flips.
-const SEMANTIC_COLOR_GROUPS: SemanticColorGroup[] = [
-  {
-    group: "text",
-    tokens: [
-      "--ds-color-text-primary",
-      "--ds-color-text-secondary",
-      "--ds-color-text-label",
-      "--ds-color-text-value-text",
-      "--ds-color-text-link",
-      "--ds-color-text-accent",
-      "--ds-color-text-on-color",
-      "--ds-color-text-heading",
-      "--ds-color-text-body",
-      "--ds-color-text-muted",
-      "--ds-color-text-brand",
-      "--ds-color-text-danger",
-      "--ds-color-text-placeholder",
-      "--ds-color-text-overlay",
-    ],
-  },
-  {
-    group: "bg",
-    tokens: [
-      "--ds-color-bg-primary",
-      "--ds-color-bg-secondary",
-    ],
-  },
-  {
-    group: "border",
-    tokens: [
-      "--ds-color-border-default",
-      "--ds-color-border-light",
-      "--ds-color-border-medium",
-      "--ds-color-border-table",
-      "--ds-color-border-danger",
-      "--ds-color-border-active",
-    ],
-  },
-  {
-    group: "surface",
-    tokens: [
-      "--ds-color-surface-card",
-      "--ds-color-surface-input",
-      "--ds-color-surface-highlight",
-      "--ds-color-surface-success",
-      "--ds-color-surface-danger",
-    ],
-  },
-  {
-    group: "status",
-    tokens: [
-      "--ds-color-status-danger",
-      "--ds-color-status-alert",
-      "--ds-color-status-success",
-      "--ds-color-status-warning",
-    ],
-  },
-  {
-    group: "icon",
-    tokens: [
-      "--ds-color-icon-brand",
-      "--ds-color-icon-brand-light",
-    ],
-  },
 ];
 
 const SPACING_TOKENS: SpacingToken[] = [

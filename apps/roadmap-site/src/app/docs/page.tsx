@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, type KeyboardEvent } from "react";
 
 import AdvancedComponentsDocs from "@/components/AdvancedComponentsDocs";
+import SemanticColorsDocs from "@/components/SemanticColorsDocs";
 
 /* ─── Data ────────────────────────────────────────────────────────────── */
 
@@ -65,6 +66,7 @@ const MOTION_EASING = ["linear", "in", "out", "in-out"];
 
 const SECTIONS = [
   { id: "colors", label: "Colors" },
+  { id: "semanticui", label: "SemanticUI" },
   { id: "spacing", label: "Spacing" },
   { id: "typography", label: "Typography" },
   { id: "radius", label: "Radius" },
@@ -204,6 +206,26 @@ export default function DocsPage() {
     color: var(--ds-color-primary-contrast);
   }
 </style>`}</Code>
+          </section>
+
+          {/* ═══ SEMANTIC UI ═══ */}
+          <section id="semanticui" className="scroll-mt-8">
+            <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50">🧩 SemanticUI Colors</h2>
+            <p className="mt-1 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
+              Role-based color tokens from the designer&apos;s Figma export. Each has a light value on <code>:root</code> and a dark value under <code>[data-theme=&quot;dark&quot;]</code> — switch the theme (top of page or Themes section) to see values change. Click a variable to copy it.
+            </p>
+            <SemanticColorsDocs onCopy={copy} theme={activeTheme} />
+            <h3 className="mb-2 mt-8 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Usage</h3>
+            <Code onCopy={copy}>{`.card {
+  background: var(--ds-color-surface-card);
+  color: var(--ds-color-text-body);
+  border: 1px solid var(--ds-color-border-light);
+}
+.card .hint { color: var(--ds-color-text-muted); }
+.card .error { color: var(--ds-color-text-danger); }`}</Code>
+            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+              Naming: Figma&apos;s <code>text-on-color</code> is <code>--ds-color-text-on-color</code>; <code>text-value</code> is <code>--ds-color-text-value-text</code> (<code>value</code> is reserved by the token parser). Tokens are regenerated with <code>pnpm --filter @company/tokens run import:figma</code>.
+            </p>
           </section>
 
           {/* ═══ SPACING ═══ */}
